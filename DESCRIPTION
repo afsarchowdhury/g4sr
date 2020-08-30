@@ -9,6 +9,7 @@ Description: An API wrapper for Go4Schools.  Allows you to manage school data.
     Authentication is required for all requests.  See your school's 
     administrator for an API key.
 License: GPLv3
+URL: https://github.com/afsarchowdhury/g4sr
 Encoding: UTF-8
 LazyData: true
 Imports:
