@@ -38,7 +38,6 @@ To return details of the school and the available academic years:
 
 ```{r example, eval=FALSE}
 library(g4sr)
-## basic example code
 gfs_school()
 ```
 

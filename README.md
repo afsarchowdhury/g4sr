@@ -32,7 +32,6 @@ To return details of the school and the available academic years:
 
 ``` r
 library(g4sr)
-## basic example code
 gfs_school()
 ```
 
