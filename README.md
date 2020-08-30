@@ -7,7 +7,9 @@
 
 <!-- badges: end -->
 
-`g4sr` is an API wrapper for Go4Schools.
+`g4sr` is an API wrapper for Go4Schools. It allows you to manage school
+data. Authentication is required for all requests. See your school’s
+administrator for an API key.
 
 ## Installation
 
