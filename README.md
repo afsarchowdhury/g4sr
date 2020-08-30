@@ -21,26 +21,24 @@ You can install the development version of g4sr from
 devtools::install_github("afsarchowdhury/g4sr")
 ```
 
+## Setup
+
+Run `gfs_setup()` and enter your API key. This is needed before any of
+the functions can be used.
+
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+To return details of the school and the available academic years:
 
 ``` r
 library(g4sr)
 ## basic example code
+gfs_school()
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+To return the school calendar for the academic year 2020:
 
 ``` r
-#summary(cars)
+my_cal <- gfs_calendar(academicYear = 2020)
+my_cal
 ```
-
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date.
-
-You can also embed plots, for example:
-
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub\!
