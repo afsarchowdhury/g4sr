@@ -1,0 +1,24 @@
+Package: g4sr
+Type: Package
+Title: Go4Schools API Wrapper
+Version: 0.4.0
+Authors@R: person("Afsar", "Chowdhury", email = "a.chowdhury@hydehighschool.uk",
+                  role = c("aut", "cre"))
+Author: Afsar Chowdhury
+Description: An API wrapper for Go4Schools.  Allows you to manage school data.
+    Authentication is required for all requests.  See your school's 
+    administrator for an API key.
+License: GPLv3
+Encoding: UTF-8
+LazyData: true
+Imports:
+    data.table,
+    httr,
+    jsonlite,
+    tidyr
+RoxygenNote: 7.1.0
+Roxygen: list(markdown = TRUE)
+Suggests: 
+    testthat,
+    knitr
+VignetteBuilder: knitr
