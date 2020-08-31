@@ -11,12 +11,14 @@
 data. Authentication is required for all requests. See your school’s
 administrator for an API key.
 
-## Disclaimer
+## Note
 
 I am in no way affiliated with
 [Go4Schools](https://www.go4schools.com/). I am an end user of their
 [API](https://www.go4schools.com/Documentation/V1/APIDocumentation.html)
-who happens to use R quite a lot.
+who happens to use [R](https://www.r-project.org/) quite a lot.
+
+There are a few API calls that are yet to be included.
 
 ## Installation
 
