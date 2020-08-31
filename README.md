@@ -11,10 +11,18 @@
 data. Authentication is required for all requests. See your school’s
 administrator for an API key.
 
+## Disclaimer
+
+I am in no way affiliated with
+[Go4Schools](https://www.go4schools.com/). I am an end user of their
+[API](https://www.go4schools.com/Documentation/V1/APIDocumentation.html)
+who happens to use R quite a lot.
+
 ## Installation
 
-You can install the development version of g4sr from
-[GitHub](https://github.com/) with:
+A [CRAN](https://cran.r-project.org/) version is unavailable at this
+time. You can install the development version from
+[GitHub](https://github.com/) by typing the following:
 
 ``` r
 # install.packages("devtools")
@@ -23,8 +31,8 @@ devtools::install_github("afsarchowdhury/g4sr")
 
 ## Setup
 
-Run `gfs_setup()` and enter your API key. This is needed before any of
-the functions can be used.
+Run `gfs_setup()` and enter your API key in the console. This is needed
+before any of the functions can be used.
 
 ## Example
 
