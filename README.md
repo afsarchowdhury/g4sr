@@ -16,20 +16,22 @@ administrator for an API key.
 I am in no way affiliated with
 [Go4Schools](https://www.go4schools.com/). I am an end user of their
 [API](https://www.go4schools.com/Documentation/V1/APIDocumentation.html)
-who happens to use [R](https://www.r-project.org/) quite a lot.
+who happens to use [R](https://www.r-project.org/).
 
 There are a few API calls that are yet to be included.
 
 ## Installation
 
-A [CRAN](https://cran.r-project.org/) version is unavailable at this
-time. You can install the development version from
-[GitHub](https://github.com/) by typing the following:
+Install the development version from [GitHub](https://github.com/) by
+typing the following:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("afsarchowdhury/g4sr")
 ```
+
+A [CRAN](https://cran.r-project.org/) version is unavailable at this
+time.
 
 ## Setup
 
