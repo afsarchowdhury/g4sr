@@ -55,3 +55,7 @@ To return the school calendar for the academic year 2020:
 my_cal <- gfs_calendar(academicYear = 2020)
 my_cal
 ```
+
+## License
+
+`g4sr` is released on a [GPLv3 license](https://www.gnu.org/licenses/gpl-3.0.en.html).
