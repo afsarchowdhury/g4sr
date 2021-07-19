@@ -13,7 +13,7 @@
 #' @export
 gfs_setup <- function(api_key) {
   if (missing(api_key))
-    api_key <- readline("Please enter your API key: ")
+    api_key <- readline("Please enter your API key without quotes: ")
   .api_headers <- paste0("Bearer ", api_key)
   assign(".api_headers", .api_headers, envir = .GlobalEnv)
 }

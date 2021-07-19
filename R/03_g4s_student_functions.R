@@ -53,7 +53,7 @@ gfs_student_general <- function(academicYear) {
   ## Parse the JSON content and and convert it to a data frame
   temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
   temp01 <- as.data.frame(temp01[[1]])
-  return(tidyr::unnest(temp01))
+  return(tidyr::unnest(temp01, cols = c(ncol(temp01)), names_repair = "universal"))
 }
 
 ## Student demographics
@@ -82,7 +82,7 @@ gfs_student_demographics <- function(academicYear) {
   ## Parse the JSON content and and convert it to a data frame
   temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
   temp01 <- as.data.frame(temp01[[1]])
-  return(tidyr::unnest(temp01))
+  return(tidyr::unnest(temp01, cols = c(ncol(temp01)), names_repair = "universal"))
 }
 
 ## Student SEND
@@ -112,7 +112,7 @@ gfs_student_send <- function(academicYear) {
   ## Parse the JSON content and and convert it to a data frame
   temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
   temp01 <- as.data.frame(temp01[[1]])
-  return(tidyr::unnest(temp01))
+  return(tidyr::unnest(temp01, cols = c(ncol(temp01)), names_repair = "universal"))
 }
 
 ## Student sensitive
@@ -142,7 +142,7 @@ gfs_student_sensitive <- function(academicYear) {
   ## Parse the JSON content and and convert it to a data frame
   temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
   temp01 <- as.data.frame(temp01[[1]])
-  return(tidyr::unnest(temp01))
+  return(tidyr::unnest(temp01, cols = c(ncol(temp01)), names_repair = "universal"))
 }
 
 ## Student education details
@@ -170,7 +170,7 @@ gfs_student_edu_details <- function(academicYear) {
   ## Parse the JSON content and and convert it to a data frame
   temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
   temp01 <- as.data.frame(temp01[[1]])
-  return(tidyr::unnest(temp01))
+  return(tidyr::unnest(temp01, cols = c(ncol(temp01)), names_repair = "universal"))
 }
 
 ## Student medical conditions

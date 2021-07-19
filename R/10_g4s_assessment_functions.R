@@ -24,8 +24,8 @@ gfs_assessment_markbooks <- function(academicYear) {
 
   ## Parse the JSON content and and convert it to a data frame
   temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
-  temp01 <- tidyr::unnest(temp01)
-  temp01 <- tidyr::unnest(temp01)
+  temp01 <- tidyr::unnest(temp01, cols = c(ncol(temp01)), names_repair = "universal")
+  temp01 <- tidyr::unnest(temp01, cols = c(ncol(temp01)), names_repair = "universal")
   return(temp01)
 }
 
@@ -55,7 +55,7 @@ gfs_assessment_marksheets <- function(academicYear) {
   ## Parse the JSON content and and convert it to a data frame
   temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
   temp01 <- as.data.frame(temp01[1])
-  temp01 <- tidyr::unnest(temp01)
+  temp01 <- tidyr::unnest(temp01, cols = c(ncol(temp01)), names_repair = "universal")
   return(temp01)
 }
 
@@ -85,6 +85,6 @@ gfs_assessment_marks <- function(academicYear) {
   ## Parse the JSON content and and convert it to a data frame
   temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
   temp01 <- as.data.frame(temp01[1])
-  temp01 <- tidyr::unnest(temp01)
+  temp01 <- tidyr::unnest(temp01, cols = c(ncol(temp01)), names_repair = "universal")
   return(temp01)
 }
