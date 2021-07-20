@@ -6,9 +6,12 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-`g4sr` is an API wrapper for Go4Schools. It allows you to manage school
-data. Authentication is required for all requests. See your school’s
-administrator for an API key.
+`g4sr` is an API wrapper for Go4Schools. It allows you to manage your
+school’s data. Authentication is required for all requests. See your
+school’s administrator for an API key. It should look something like
+this:
+
+`thisISyourAPIkeyITlooksLIKEaLONGstringOFlettersANDnumbers`
 
 ## Note
 
@@ -38,15 +41,55 @@ time.
 
 ## Setup
 
-Run `gfs_setup()` and enter your API key in the console. This is needed
-before any of the functions can be used.
+If you have never used `R` before, or you only ever use it once or twice
+a year, the following will do:
+
+``` r
+# Load the g4sr package
+library(g4sr)
+
+# Run setup
+gfs_setup()
+```
+
+You will be prompted to enter your API key in the console. This is
+needed before any of the functions can be used.
+
+If you are a more advanced user, you may wish to store your API key so
+that you don’t have to re-enter it everytime you start a new session.
+Best practice is to set the API key as an environment variable for your
+system and then call it in `R` using `Sys.getenv()`. If you set the
+parameter in `.Renviron`, it is permanently available to your `R`
+sessions. Be aware: if you are using version control, you do not want to
+commit the `.Renviron` file in your local directory. Either edit your
+global `.Renviron` file, or make sure that `.Renviron` is added to your
+`.gitignore` file.
+
+Open the `.Renviron` file and add the following line:
+
+``` r
+G4SR_KEY=thisISyourAPIkeyITlooksLIKEaLONGstringOFlettersANDnumbers
+```
+
+Restart your `R` session and test to make sure the key has been added
+using the command:
+
+``` r
+Sys.getenv("G4SR_KEY")
+```
 
 ## Example
 
 To return details of the school and the available academic years:
 
 ``` r
+# Load g4sr if you have not already
 library(g4sr)
+
+# Setup g4sr using your chosen method
+gfs_setup()
+
+# Return list of available academic years
 gfs_school()
 ```
 
@@ -76,15 +119,15 @@ To return the school calendar for the academic year 2020:
 
 ``` r
 my_cal <- gfs_calendar(academicYear = 2020)
+#> [1] "Status code: 200"
 head(my_cal)
-
-  timetable_id week                 date day_type_code
-1        10202    1 2019-09-03T00:00:00Z          OPEN
-2           NA   NA 2019-09-02T00:00:00Z      TRAINING
-3           NA   NA 2019-09-08T00:00:00Z        CLOSED
-4        10202    1 2019-09-04T00:00:00Z          OPEN
-5           NA   NA 2019-09-07T00:00:00Z        CLOSED
-6        10202    2 2019-09-12T00:00:00Z          OPEN
+#>   timetable_id week                 date day_type_code
+#> 1        10202    1 2019-09-03T00:00:00Z          OPEN
+#> 2           NA   NA 2019-09-02T00:00:00Z      TRAINING
+#> 3           NA   NA 2019-09-08T00:00:00Z        CLOSED
+#> 4        10202    1 2019-09-04T00:00:00Z          OPEN
+#> 5           NA   NA 2019-09-07T00:00:00Z        CLOSED
+#> 6        10202    2 2019-09-12T00:00:00Z          OPEN
 ```
 
 ## License
