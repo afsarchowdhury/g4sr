@@ -29,8 +29,11 @@ There are some API calls that are yet to be included.  The only reason for thier
 
 Install the development version from [GitHub](https://github.com/) by typing the following:
 
-``` r
-# install.packages("devtools")
+```{r, eval=FALSE}
+# Install devtools if needed
+#install.packages("devtools")
+
+# Install g4sr using devtools
 devtools::install_github("afsarchowdhury/g4sr")
 ```
 

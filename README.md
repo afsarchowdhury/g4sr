@@ -26,7 +26,10 @@ Install the development version from [GitHub](https://github.com/) by
 typing the following:
 
 ``` r
-# install.packages("devtools")
+# Install devtools if needed
+#install.packages("devtools")
+
+# Install g4sr using devtools
 devtools::install_github("afsarchowdhury/g4sr")
 ```
 
