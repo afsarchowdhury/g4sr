@@ -39,10 +39,10 @@ devtools::install_github("afsarchowdhury/g4sr")
 A [CRAN](https://cran.r-project.org/) version is unavailable at this
 time.
 
-## Setup
+## Setup for beginners
 
 If you have never used `R` before, or you only ever use it once or twice
-a year, the following will do:
+a year, the following is your best option:
 
 ``` r
 # Load the g4sr package
@@ -55,8 +55,10 @@ gfs_setup()
 You will be prompted to enter your API key in the console. This is
 needed before any of the functions can be used.
 
+## Setup for more advanced users
+
 If you are a more advanced user, you may wish to store your API key so
-that you don’t have to re-enter it everytime you start a new session.
+that you don’t have to re-enter it every time you start a new session.
 Best practice is to set the API key as an environment variable for your
 system and then call it in `R` using `Sys.getenv()`. If you set the
 parameter in `.Renviron`, it is permanently available to your `R`
@@ -78,7 +80,15 @@ using the command:
 Sys.getenv("G4SR_KEY")
 ```
 
-## Example
+You should see your API key printed in the console. If this works, you
+can do the following:
+
+``` r
+library(g4sr)
+gfs_setup(api_key = Sys.getenv("G4SR_KEY"))
+```
+
+## Example 1
 
 To return details of the school and the available academic years:
 
@@ -114,6 +124,8 @@ Anything other than a status code 200 means there was an error along the
 way. See
 <https://www.go4schools.com/Documentation/V1/APIDocumentation.html#errors>
 to identify the error.
+
+## Example 2
 
 To return the school calendar for the academic year 2020:
 
