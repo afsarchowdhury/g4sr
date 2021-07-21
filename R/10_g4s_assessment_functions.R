@@ -17,7 +17,7 @@ gfs_assessment_markbooks <- function(academicYear) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  print(paste0("Status code: ", .result$status_code))
+  message(paste0("Status code: ", .result$status_code))
 
   ## Parse returned data as text
   response <- httr::content(.result, as = "text", encoding = "UTF-8")
@@ -47,7 +47,7 @@ gfs_assessment_marksheets <- function(academicYear) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  print(paste0("Status code: ", .result$status_code))
+  message(paste0("Status code: ", .result$status_code))
 
   ## Parse returned data as text
   response <- httr::content(.result, as = "text", encoding = "UTF-8")
@@ -77,7 +77,7 @@ gfs_assessment_marks <- function(academicYear) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  print(paste0("Status code: ", .result$status_code))
+  message(paste0("Status code: ", .result$status_code))
 
   ## Parse returned data as text
   response <- httr::content(.result, as = "text", encoding = "UTF-8")

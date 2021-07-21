@@ -17,7 +17,7 @@ gfs_student_details <- function(academicYear) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  print(paste0("Status code: ", .result$status_code))
+  message(paste0("Status code: ", .result$status_code))
 
   ## Parse returned data as text
   response <- httr::content(.result, as = "text", encoding = "UTF-8")
@@ -45,7 +45,7 @@ gfs_student_general <- function(academicYear) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  print(paste0("Status code: ", .result$status_code))
+  message(paste0("Status code: ", .result$status_code))
 
   ## Parse returned data as text
   response <- httr::content(.result, as = "text", encoding = "UTF-8")
@@ -74,7 +74,7 @@ gfs_student_demographics <- function(academicYear) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  print(paste0("Status code: ", .result$status_code))
+  message(paste0("Status code: ", .result$status_code))
 
   ## Parse returned data as text
   response <- httr::content(.result, as = "text", encoding = "UTF-8")
@@ -104,7 +104,7 @@ gfs_student_send <- function(academicYear) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  print(paste0("Status code: ", .result$status_code))
+  message(paste0("Status code: ", .result$status_code))
 
   ## Parse returned data as text
   response <- httr::content(.result, as = "text", encoding = "UTF-8")
@@ -134,7 +134,7 @@ gfs_student_sensitive <- function(academicYear) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  print(paste0("Status code: ", .result$status_code))
+  message(paste0("Status code: ", .result$status_code))
 
   ## Parse returned data as text
   response <- httr::content(.result, as = "text", encoding = "UTF-8")
@@ -162,7 +162,7 @@ gfs_student_edu_details <- function(academicYear) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  print(paste0("Status code: ", .result$status_code))
+  message(paste0("Status code: ", .result$status_code))
 
   ## Parse returned data as text
   response <- httr::content(.result, as = "text", encoding = "UTF-8")
@@ -190,7 +190,7 @@ gfs_student_medical <- function(academicYear) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  print(paste0("Status code: ", .result$status_code))
+  message(paste0("Status code: ", .result$status_code))
 
   ## Parse returned data as text
   response <- httr::content(.result, as = "text", encoding = "UTF-8")
