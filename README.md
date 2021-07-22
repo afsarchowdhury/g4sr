@@ -85,6 +85,14 @@ can do the following:
 
 ``` r
 library(g4sr)
+#> Welcome to g4sr.
+#> 
+#> This package is released under GPLv3.
+#> 
+#> Log issues at https://github.com/afsarchowdhury/g4sr/issues.
+#> 
+#> You will need a valid API key to access the functions in this pacakge.
+#> Ask your school administrator to generate one for you.
 gfs_setup(api_key = Sys.getenv("G4SR_KEY"))
 ```
 
@@ -106,18 +114,18 @@ gfs_school()
 You should see a printout in the console, looking something like this:
 
 ``` r
-[1] "Status code: 200"
-$code
-[1] "SCHOOLCODE"
-
-$name
-[1] "School Name"
-
-$academic_years
- [1] 2021 2020 2019 2018 2017 2016 2015 2014 2013 2012
-
-$current_academic_year
-[1] 2021
+#> Status code: 200
+#> $code
+#> [1] "SCHOOLCODE"
+#> 
+#> $name
+#> [1] "School Name"
+#> 
+#> $academic_years
+#>  [1] 2021 2020 2019 2018 2017 2016 2015 2014 2013 2012
+#> 
+#> $current_academic_year
+#> [1] 2021
 ```
 
 Anything other than a status code 200 means there was an error along the
@@ -131,7 +139,7 @@ To return the school calendar for the academic year 2020:
 
 ``` r
 my_cal <- gfs_calendar(academicYear = 2020)
-#> [1] "Status code: 200"
+#> Status code: 200
 head(my_cal)
 #>   timetable_id week                 date day_type_code
 #> 1        10202    1 2019-09-03T00:00:00Z          OPEN
