@@ -86,3 +86,31 @@ gfs_attainment_exam_results <- function(academicYear, yearGroup) {
   temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
   return(temp01)
 }
+
+## Prior attainment
+#' Get prior attainment.
+#'
+#' Returns prior attainment for students.
+#' * Use `gfs_student_details()` to resolve student personal details.
+#' @param academicYear academic year as integer.
+#' @examples
+#' gfs_attainment_prior(2020)
+#' @export
+gfs_attainment_prior <- function(academicYear) {
+  ## Set path
+  .path <<- paste0(.path_base02, academicYear, .path_attainment, "/prior-attainment")
+
+  ## Store query
+  .gfs_query()
+
+  ## Check if the API returned an error. If the request fails the API will return a non-200 status code
+  message(paste0("Status code: ", .result$status_code))
+
+  ## Parse returned data as text
+  response <- httr::content(.result, as = "text", encoding = "UTF-8")
+
+  ## Parse the JSON content and and convert it to a data frame
+  temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
+  temp01 <- as.data.frame(temp01[[1]])
+  return(tidyr::unnest(temp01, cols = c(ncol(temp01)), names_repair = "universal"))
+}
