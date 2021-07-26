@@ -4,12 +4,13 @@ Title: Go4Schools API Wrapper
 Version: 0.4.3
 Authors@R: person("Afsar", "Chowdhury", email = "a.chowdhury@hydehighschool.uk",
                   role = c("aut", "cre"))
-Author: Afsar Chowdhury
+Maintainer: Afsar Chowdhury <a.chowdhury@hydehighschool.uk>
 Description: An API wrapper for Go4Schools.  Allows you to manage school data.
     Authentication is required for all requests.  See your school's 
     administrator for an API key.
 License: GPLv3
 URL: https://github.com/afsarchowdhury/g4sr
+BugReports: https://github.com/afsarchowdhury/g4sr/issues
 Encoding: UTF-8
 LazyData: true
 Imports:
