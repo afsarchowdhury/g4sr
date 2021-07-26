@@ -31,6 +31,7 @@ gfs_setup <- function(api_key) {
 .path_attendance <- "/attendance"
 .path_attainment <- "/attainment"
 .path_assessment <- "/assessment"
+.path_reports <- "/attainment/reports"
 
 # Query functions ---------------------------
 .gfs_query <- function() {
