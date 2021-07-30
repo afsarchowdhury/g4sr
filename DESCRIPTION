@@ -1,7 +1,7 @@
 Package: g4sr
 Type: Package
 Title: Go4Schools API Wrapper
-Version: 0.5.0
+Version: 0.5.1
 Authors@R: person("Afsar", "Chowdhury", email = "a.chowdhury@hydehighschool.uk",
                   role = c("aut", "cre"))
 Maintainer: Afsar Chowdhury <a.chowdhury@hydehighschool.uk>
@@ -17,6 +17,7 @@ Imports:
     crayon,
     data.table,
     dplyr,
+    ggplot2,
     httr,
     jsonlite,
     magrittr,
