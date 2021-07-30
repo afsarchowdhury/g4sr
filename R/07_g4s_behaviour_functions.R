@@ -10,6 +10,9 @@
 #' gfs_behaviour_followup(2020)
 #' @export
 gfs_behaviour_followup <- function(academicYear) {
+  ## Message
+  message(cat(crayon::silver("Request follow-up actions")))
+
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_behaviour, "/actions/follow-up")
 
@@ -17,7 +20,7 @@ gfs_behaviour_followup <- function(academicYear) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  message(paste0("Status code: ", .result$status_code))
+  .gfs_query_message()
 
   ## Parse returned data as text
   response <- httr::content(.result, as = "text", encoding = "UTF-8")
@@ -37,6 +40,9 @@ gfs_behaviour_followup <- function(academicYear) {
 #' gfs_behaviour_immediate(2020)
 #' @export
 gfs_behaviour_immediate <- function(academicYear) {
+  ## Message
+  message(cat(crayon::silver("Request immediate actions")))
+
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_behaviour, "/actions/immediate")
 
@@ -44,7 +50,7 @@ gfs_behaviour_immediate <- function(academicYear) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  message(paste0("Status code: ", .result$status_code))
+  .gfs_query_message()
 
   ## Parse returned data as text
   response <- httr::content(.result, as = "text", encoding = "UTF-8")
@@ -64,6 +70,9 @@ gfs_behaviour_immediate <- function(academicYear) {
 #' gfs_behaviour_classification(2020)
 #' @export
 gfs_behaviour_classification <- function(academicYear) {
+  ## Message
+  message(cat(crayon::silver("Request behaviour classifications")))
+
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_behaviour, "/classification")
 
@@ -71,7 +80,7 @@ gfs_behaviour_classification <- function(academicYear) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  message(paste0("Status code: ", .result$status_code))
+  .gfs_query_message()
 
   ## Parse returned data as text
   response <- httr::content(.result, as = "text", encoding = "UTF-8")
@@ -92,6 +101,9 @@ gfs_behaviour_classification <- function(academicYear) {
 #' gfs_behaviour_event_types(2020)
 #' @export
 gfs_behaviour_event_types <- function(academicYear) {
+  ## Message
+  message(cat(crayon::silver("Request event types")))
+
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_behaviour, "/event-types")
 
@@ -99,7 +111,7 @@ gfs_behaviour_event_types <- function(academicYear) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  message(paste0("Status code: ", .result$status_code))
+  .gfs_query_message()
 
   ## Parse returned data as text
   response <- httr::content(.result, as = "text", encoding = "UTF-8")
@@ -122,6 +134,9 @@ gfs_behaviour_event_types <- function(academicYear) {
 #' gfs_behaviour_events(2020, "2020-03-19")
 #' @export
 gfs_behaviour_events <- function(academicYear, goDate) {
+  ## Message
+  message(cat(crayon::silver("Request events for", goDate)))
+
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_behaviour, "/events/date/", goDate)
 
@@ -129,15 +144,11 @@ gfs_behaviour_events <- function(academicYear, goDate) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  message(paste0("Status code: ", .result$status_code))
+  .gfs_query_message()
 
-  ## Parse returned data as text
-  response <- httr::content(.result, as = "text", encoding = "UTF-8")
+  ## Parse and loop paginations
+  temp01 <- .gfs_query_while()
 
-  ## Parse the JSON content and and convert it to a data frame
-  temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
-  temp01 <- as.data.frame(temp01[1])
-  temp01 <- tidyr::unnest(temp01)
   return(temp01)
 }
 
@@ -155,6 +166,9 @@ gfs_behaviour_events <- function(academicYear, goDate) {
 #' gfs_behaviour_events_range(2020, "2020-03-16", "2020-03-19")
 #' @export
 gfs_behaviour_events_range <- function(academicYear, goDateStart, goDateEnd) {
+  ## Message
+  message(cat(crayon::silver("Request events range", goDateStart, "to", goDateEnd)))
+
   ## Create date range sequence
   goDate <- seq(as.Date(goDateStart), as.Date(goDateEnd), 1)
 

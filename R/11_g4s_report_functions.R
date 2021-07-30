@@ -10,6 +10,9 @@
 #' gfs_reports(2021)
 #' @export
 gfs_reports <- function(academicYear) {
+  ## Message
+  message(cat(crayon::silver("Request reports")))
+
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_reports)
 
@@ -17,7 +20,7 @@ gfs_reports <- function(academicYear) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  message(paste0("Status code: ", .result$status_code))
+  .gfs_query_message()
 
   ## Parse returned data as text
   response <- httr::content(.result, as = "text", encoding = "UTF-8")
@@ -41,6 +44,9 @@ gfs_reports <- function(academicYear) {
 #' gfs_reports_attributes(2021, 57102)
 #' @export
 gfs_reports_attributes <- function(academicYear, reportID) {
+  ## Message
+  message(cat(crayon::silver("Request report attributes")))
+
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_reports, "/", reportID, "/attributes")
 
@@ -48,7 +54,7 @@ gfs_reports_attributes <- function(academicYear, reportID) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  message(paste0("Status code: ", .result$status_code))
+  .gfs_query_message()
 
   ## Parse returned data as text
   response <- httr::content(.result, as = "text", encoding = "UTF-8")
@@ -73,6 +79,9 @@ gfs_reports_attributes <- function(academicYear, reportID) {
 #' gfs_reports_grades(2021, 57102)
 #' @export
 gfs_reports_grades <- function(academicYear, reportID) {
+  ## Message
+  message(cat(crayon::silver("Request report grades")))
+
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_reports, "/", reportID, "/grades")
 
@@ -80,7 +89,7 @@ gfs_reports_grades <- function(academicYear, reportID) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  message(paste0("Status code: ", .result$status_code))
+  .gfs_query_message()
 
   ## Parse returned data as text
   response <- httr::content(.result, as = "text", encoding = "UTF-8")
@@ -105,6 +114,9 @@ gfs_reports_grades <- function(academicYear, reportID) {
 #' gfs_reports_comments(2021, 57102)
 #' @export
 gfs_reports_comments <- function(academicYear, reportID) {
+  ## Message
+  message(cat(crayon::silver("Request report comments")))
+
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_reports, "/", reportID, "/comments")
 
@@ -112,13 +124,10 @@ gfs_reports_comments <- function(academicYear, reportID) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  message(paste0("Status code: ", .result$status_code))
+  .gfs_query_message()
 
-  ## Parse returned data as text
-  response <- httr::content(.result, as = "text", encoding = "UTF-8")
+  ## Parse and loop paginations
+  temp01 <- .gfs_query_while()
 
-  ## Parse the JSON content and and convert it to a data frame
-  temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
-  temp01 <- as.data.frame(temp01[[1]])
   return(temp01)
 }

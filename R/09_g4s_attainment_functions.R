@@ -10,6 +10,9 @@
 #' gfs_attainment_grade_types(2020, "11")
 #' @export
 gfs_attainment_grade_types <- function(academicYear, yearGroup) {
+  ## Message
+  message(cat(crayon::silver("Request attainment grade types")))
+
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_attainment, "/grade-types/year-group/", yearGroup)
 
@@ -17,7 +20,7 @@ gfs_attainment_grade_types <- function(academicYear, yearGroup) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  message(paste0("Status code: ", .result$status_code))
+  .gfs_query_message()
 
   ## Parse returned data as text
   response <- httr::content(.result, as = "text", encoding = "UTF-8")
@@ -40,6 +43,9 @@ gfs_attainment_grade_types <- function(academicYear, yearGroup) {
 #' gfs_attainment_grades(2020, "11")
 #' @export
 gfs_attainment_grades <- function(academicYear, yearGroup) {
+  ## Message
+  message(cat(crayon::silver("Request attainment grades")))
+
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_attainment, "/grades/year-group/", yearGroup)
 
@@ -47,7 +53,7 @@ gfs_attainment_grades <- function(academicYear, yearGroup) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  message(paste0("Status code: ", .result$status_code))
+  .gfs_query_message()
 
   ## Parse returned data as text
   response <- httr::content(.result, as = "text", encoding = "UTF-8")
@@ -70,6 +76,9 @@ gfs_attainment_grades <- function(academicYear, yearGroup) {
 #' gfs_attainment_exam_results(2020, "11")
 #' @export
 gfs_attainment_exam_results <- function(academicYear, yearGroup) {
+  ## Message
+  message(cat(crayon::silver("Request examination results")))
+
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_attainment, "/exam-results/year-group/", yearGroup)
 
@@ -77,7 +86,7 @@ gfs_attainment_exam_results <- function(academicYear, yearGroup) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  message(paste0("Status code: ", .result$status_code))
+  .gfs_query_message()
 
   ## Parse returned data as text
   response <- httr::content(.result, as = "text", encoding = "UTF-8")
@@ -97,6 +106,9 @@ gfs_attainment_exam_results <- function(academicYear, yearGroup) {
 #' gfs_attainment_prior(2020)
 #' @export
 gfs_attainment_prior <- function(academicYear) {
+  ## Message
+  message(cat(crayon::silver("Request prior attainment")))
+
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_attainment, "/prior-attainment")
 
@@ -104,13 +116,9 @@ gfs_attainment_prior <- function(academicYear) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  message(paste0("Status code: ", .result$status_code))
+  .gfs_query_message()
 
-  ## Parse returned data as text
-  response <- httr::content(.result, as = "text", encoding = "UTF-8")
-
-  ## Parse the JSON content and and convert it to a data frame
-  temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
-  temp01 <- as.data.frame(temp01[[1]])
-  return(tidyr::unnest(temp01, cols = c(ncol(temp01)), names_repair = "universal"))
+  ## Parse and loop paginations
+  temp01 <- .gfs_query_while()
+  return(temp01)
 }

@@ -33,10 +33,53 @@ gfs_setup <- function(api_key) {
 .path_assessment <- "/assessment"
 .path_reports <- "/attainment/reports"
 
+# Messages ---------------------------
+message_pagination <- paste0("Process pagination")
+message_cursor <- paste0("Cursor at student ID:")
+
+.gfs_query_message <- function() {
+  if (.result$status_code > 200) {
+    message(cat(crayon::red("Status code:", .result$status_code,
+                            "\nSee https://www.go4schools.com/Documentation/V1/APIDocumentation.html#errors")))
+  } else {
+    message(cat(crayon::green("Status code:", .result$status_code)))
+  }
+}
+
 # Query functions ---------------------------
 .gfs_query <- function() {
   .result <<- httr::GET(
     url = .path,
     httr::add_headers(.headers = c("Authorization" = .api_headers))
   )
+}
+
+.gfs_query_pagination <- function() {
+  nextPage <- .response$cursor
+  message(cat(crayon::silver(message_cursor, nextPage)))
+  .result_pagination <<- httr::GET(
+    url = paste0(.path, "?cursor=", nextPage),
+    httr::add_headers(.headers = c("Authorization" = .api_headers))
+  )
+}
+
+# While function
+.gfs_query_while <- function() {
+  ## Parse returned data
+  .response <<- httr::content(.result, as = "text", encoding = "UTF-8")
+  .response <<- jsonlite::fromJSON(.response, flatten = TRUE)
+  temp01 <- as.data.frame(.response[[1]])
+  temp01 <- tidyr::unnest(temp01, cols = c(ncol(temp01)), names_repair = "universal")
+
+  ## Loop through the remaining paginations
+  message(cat(crayon::silver(message_pagination)))
+  while(.response$has_more == TRUE) {
+    resp <- .gfs_query_pagination()
+    .response <<- httr::content(resp, as = "text", encoding = "UTF-8")
+    .response <<- jsonlite::fromJSON(.response, flatten = TRUE)
+    temp02 <- as.data.frame(.response[[1]])
+    temp02 <- tidyr::unnest(temp02, cols = c(ncol(temp02)), names_repair = "universal")
+    temp01 <- dplyr::add_row(temp01, temp02)
+  }
+  return(temp01)
 }

@@ -6,6 +6,9 @@
 #' Returns details of parent user accounts.
 #' @export
 gfs_users_parent <- function() {
+  ## Message
+  message(cat(crayon::silver("Request parent details")))
+
   ## Set path
   .path <<- paste0(.path_base, .path_users, "/parents")
 
@@ -13,7 +16,7 @@ gfs_users_parent <- function() {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  message(paste0("Status code: ", .result$status_code))
+  .gfs_query_message()
 
   ## Parse returned data as text
   response <- httr::content(.result, as = "text", encoding = "UTF-8")
@@ -28,6 +31,9 @@ gfs_users_parent <- function() {
 #' Returns details of staff user accounts.
 #' @export
 gfs_users_staff <- function() {
+  ## Message
+  message(cat(crayon::silver("Request staff details")))
+
   ## Set path
   .path <<- paste0(.path_base, .path_users, "/staff")
 
@@ -35,7 +41,7 @@ gfs_users_staff <- function() {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  message(paste0("Status code: ", .result$status_code))
+  .gfs_query_message()
 
   ## Parse returned data as text
   response <- httr::content(.result, as = "text", encoding = "UTF-8")

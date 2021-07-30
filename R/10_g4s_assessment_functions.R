@@ -10,6 +10,9 @@
 #' gfs_assessment_markbooks(2020)
 #' @export
 gfs_assessment_markbooks <- function(academicYear) {
+  ## Message
+  message(cat(crayon::silver("Request assessment markbooks")))
+
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_assessment, "/markbooks")
 
@@ -17,7 +20,7 @@ gfs_assessment_markbooks <- function(academicYear) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  message(paste0("Status code: ", .result$status_code))
+  .gfs_query_message()
 
   ## Parse returned data as text
   response <- httr::content(.result, as = "text", encoding = "UTF-8")
@@ -40,6 +43,9 @@ gfs_assessment_markbooks <- function(academicYear) {
 #' gfs_assessment_marksheet_grades(2020)
 #' @export
 gfs_assessment_marksheets <- function(academicYear) {
+  ## Message
+  message(cat(crayon::silver("Request assessment marksheets")))
+
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_assessment, "/marksheet-grades")
 
@@ -47,15 +53,11 @@ gfs_assessment_marksheets <- function(academicYear) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  message(paste0("Status code: ", .result$status_code))
+  .gfs_query_message()
 
-  ## Parse returned data as text
-  response <- httr::content(.result, as = "text", encoding = "UTF-8")
+  ## Parse and loop paginations
+  temp01 <- .gfs_query_while()
 
-  ## Parse the JSON content and and convert it to a data frame
-  temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
-  temp01 <- as.data.frame(temp01[1])
-  temp01 <- tidyr::unnest(temp01, cols = c(ncol(temp01)), names_repair = "universal")
   return(temp01)
 }
 
@@ -70,6 +72,9 @@ gfs_assessment_marksheets <- function(academicYear) {
 #' gfs_assessment_marks(2020)
 #' @export
 gfs_assessment_marks <- function(academicYear) {
+  ## Message
+  message(cat(crayon::silver("Request assessment marks")))
+
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_assessment, "/marks")
 
@@ -77,14 +82,10 @@ gfs_assessment_marks <- function(academicYear) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  message(paste0("Status code: ", .result$status_code))
+  .gfs_query_message()
 
-  ## Parse returned data as text
-  response <- httr::content(.result, as = "text", encoding = "UTF-8")
+  ## Parse and loop paginations
+  temp01 <- .gfs_query_while()
 
-  ## Parse the JSON content and and convert it to a data frame
-  temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
-  temp01 <- as.data.frame(temp01[1])
-  temp01 <- tidyr::unnest(temp01, cols = c(ncol(temp01)), names_repair = "universal")
   return(temp01)
 }

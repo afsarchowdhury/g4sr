@@ -10,6 +10,9 @@
 #' gfs_timetables(2020)
 #' @export
 gfs_timetables <- function(academicYear) {
+  ## Message
+  message(cat(crayon::silver("Request timetables")))
+
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_timetables)
 
@@ -17,7 +20,7 @@ gfs_timetables <- function(academicYear) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  message(paste0("Status code: ", .result$status_code))
+  .gfs_query_message()
 
   ## Parse returned data as text
   response <- httr::content(.result, as = "text", encoding = "UTF-8")
@@ -38,6 +41,9 @@ gfs_timetables <- function(academicYear) {
 #' gfs_calendar(2020)
 #' @export
 gfs_calendar <- function(academicYear) {
+  ## Message
+  message(cat(crayon::silver("Request calendar")))
+
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_timetables, "/calendar")
 
@@ -45,7 +51,7 @@ gfs_calendar <- function(academicYear) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  message(paste0("Status code: ", .result$status_code))
+  .gfs_query_message()
 
   ## Parse returned data as text
   response <- httr::content(.result, as = "text", encoding = "UTF-8")
@@ -66,6 +72,9 @@ gfs_calendar <- function(academicYear) {
 #' gfs_classes(2020)
 #' @export
 gfs_classes <- function(academicYear) {
+  ## Message
+  message(cat(crayon::silver("Request classes")))
+
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_timetables, "/classes")
 
@@ -73,14 +82,12 @@ gfs_classes <- function(academicYear) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  message(paste0("Status code: ", .result$status_code))
+  .gfs_query_message()
 
-  ## Parse returned data as text
-  response <- httr::content(.result, as = "text", encoding = "UTF-8")
+  ## Parse and loop paginations
+  temp01 <- .gfs_query_while()
 
-  ## Parse the JSON content and and convert it to a data frame
-  temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
-  return(as.data.frame(temp01[[1]]))
+  return(temp01)
 }
 
 ## Student classes
@@ -95,6 +102,9 @@ gfs_classes <- function(academicYear) {
 #' gfs_student_classes(2020)
 #' @export
 gfs_student_classes <- function(academicYear) {
+  ## Message
+  message(cat(crayon::silver("Request students assigned to classes")))
+
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_timetables, "/student-classes")
 
@@ -102,13 +112,10 @@ gfs_student_classes <- function(academicYear) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  message(paste0("Status code: ", .result$status_code))
+  .gfs_query_message()
 
-  ## Parse returned data as text
-  response <- httr::content(.result, as = "text", encoding = "UTF-8")
+  ## Parse and loop paginations
+  temp01 <- .gfs_query_while()
 
-  ## Parse the JSON content and and convert it to a data frame
-  temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
-  temp01 <- as.data.frame(temp01[[1]])
-  return(tidyr::unnest(temp01, cols = c(ncol(temp01)), names_repair = "universal"))
+  return(temp01)
 }
