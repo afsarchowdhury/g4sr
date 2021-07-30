@@ -131,7 +131,7 @@ You should see a printout in the console, looking something like this:
 Anything other than a status code 200 means there was an error along the
 way. See
 <https://www.go4schools.com/Documentation/V1/APIDocumentation.html#errors>
-to identify the error.
+to identify the error if you get one.
 
 ## Example 2
 
@@ -139,7 +139,10 @@ To return the school calendar for the academic year 2020:
 
 ``` r
 my_cal <- gfs_calendar(academicYear = 2020)
+#> Request calendar
+#> 
 #> Status code: 200
+#> 
 head(my_cal)
 #>   timetable_id week                 date day_type_code
 #> 1        10202    1 2019-09-03T00:00:00Z          OPEN

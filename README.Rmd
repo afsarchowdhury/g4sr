@@ -110,7 +110,7 @@ You should see a printout in the console, looking something like this:
 #> [1] 2021
 ```
 
-Anything other than a status code 200 means there was an error along the way.  See https://www.go4schools.com/Documentation/V1/APIDocumentation.html#errors to identify the error.
+Anything other than a status code 200 means there was an error along the way.  See https://www.go4schools.com/Documentation/V1/APIDocumentation.html#errors to identify the error if you get one.
 
 ## Example 2
 
