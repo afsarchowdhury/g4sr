@@ -7,8 +7,8 @@
 gfs_clean_school_population()
 }
 \description{
-Returns clean details of school population for all
-available academic years, along with a line plot.
+Returns clean details of school population for all available academic years,
+along with a line plot.
 }
 \examples{
 gfs_clean_school_population()
