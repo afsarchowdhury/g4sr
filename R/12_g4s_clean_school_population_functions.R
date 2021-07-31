@@ -3,8 +3,8 @@
 ## Clean school population
 #' Get clean school population data.
 #'
-#' Returns clean details of school population for all
-#' available academic years, along with a line plot.
+#' Returns clean details of school population for all available academic years,
+#' along with a line plot.
 #' @examples
 #' gfs_clean_school_population()
 #' @export
@@ -15,7 +15,6 @@ gfs_clean_school_population <- function() {
 
   ## School details
   my_school <- gfs_school()
-  my_school
 
   ## Define variables
   my_school_name <- my_school$name
