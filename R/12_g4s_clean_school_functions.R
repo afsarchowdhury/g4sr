@@ -1,4 +1,4 @@
-# Clean school population functions ---------------------------
+# Clean school functions ---------------------------
 
 ## Clean school population
 #' Get clean school population data.
