@@ -10,9 +10,12 @@ gfs_clean_exam_results(academicYear, yearGroup, type = NULL)
 \item{academicYear}{academic year as integer.}
 
 \item{yearGroup}{year group as string.}
+
+\item{type}{qualification type as string.}
 }
 \description{
-Returns clean details of external examination results in the chosen academic year for chosen
+Returns clean details of external examination results in the chosen
+academic year for chosen
 year group.
 }
 \examples{

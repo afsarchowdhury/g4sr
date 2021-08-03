@@ -3,10 +3,12 @@
 ## Clean exam results
 #' Get external examination results.
 #'
-#' Returns clean details of external examination results in the chosen academic year for chosen
+#' Returns clean details of external examination results in the chosen
+#' academic year for chosen
 #' year group.
 #' @param academicYear academic year as integer.
 #' @param yearGroup year group as string.
+#' @param type qualification type as string.
 #' @examples
 #' gfs_clean_exam_results(2020, "11")
 #' gfs_clean_exam_results(2020, "11", type = "gcse")
