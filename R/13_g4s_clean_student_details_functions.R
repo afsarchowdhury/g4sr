@@ -76,4 +76,36 @@ gfs_clean_student_details_general <- function(academicYear) {
   df <- dplyr::mutate_at(df, .vars = c("Date.Admission", "Date.Leaving"), .funs = lubridate::mdy_hms)
   df$Stay <- lubridate::as.duration(df$Date.Leaving - df$Date.Admission)
   df <- unique(df)
+
+  ## Return
+  return(df)
+}
+
+## Clean SEND notes search
+#' Get clean SEND notes search.
+#'
+#' Returns clean student details based on SEND notes search for chosen
+#' academic year.
+#' @param academicYear academic year as integer.
+#' @param academicYear notesSearch as string.
+#' @examples
+#' gfs_clean_student_send_search(2021, "extra time")
+#' gfs_clean_student_send_search(2021, "irlen")
+#' @export
+gfs_clean_student_send_search <- function(academicYear, notesSearch) {
+  df <- gfs_clean_student_details_general(academicYear)
+
+  ## Search
+  message(cat(crayon::silver("Search SEND notes for", notesSearch)))
+  df <- dplyr::filter(df, grepl(pattern = notesSearch, x = SEN.Notes, ignore.case = TRUE))
+
+  message(cat(crayon::silver("Clean final output")))
+
+  ## Clean and filter
+  df <- dplyr::select(df, c(Year.Group, UPN, GFSID, Surname.Forename.Reg, Gender, EAL, PP, WBr.PP, HML.Band, UCI,
+                            SEN, SEN.Notes, Keyworker, LAC, CP.CAF, Young.Carer))
+  df <- dplyr::arrange(df, as.numeric(Year.Group))
+
+  ## Return
+  return(df)
 }
