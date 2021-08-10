@@ -9,7 +9,7 @@ gfs_reports_attributes(academicYear, reportID)
 \arguments{
 \item{academicYear}{academic year as integer.}
 
-\item{reportID}{report ID year as integer.}
+\item{reportID}{report ID as integer.}
 }
 \description{
 Returns attributes for students in chosen academic year and report.
