@@ -1,7 +1,7 @@
 # Clean attainment functions ---------------------------
 
 ## Clean exam results
-#' Get external examination results.
+#' Get clean external examination results.
 #'
 #' Returns clean details of external examination results in the chosen
 #' academic year for chosen
@@ -16,7 +16,7 @@
 #' @export
 gfs_clean_exam_results <- function(academicYear, yearGroup, type = NULL) {
   ## Mesaage
-  message(cat(crayon::cyan("Generating clean external examination results")))
+  message(cat(crayon::cyan("Generating clean external examination results for", academicYear, "year", yearGroup)))
 
   ## Import data
   df_att_exam_results <- gfs_attainment_exam_results(academicYear, yearGroup)
@@ -89,6 +89,80 @@ gfs_clean_exam_results <- function(academicYear, yearGroup, type = NULL) {
     my_query <- glue::glue_collapse(x = my_query, sep = "|", last = "")
     df <- dplyr::filter(df, grepl(pattern = my_query, x = Qualification.Title, ignore.case = TRUE))
   }
+
+  ## Return
+  return(df)
+}
+
+## Clean attainment
+#' Get clean attainment data.
+#'
+#' Returns clean details of attainment in the chosen academic year for chosen
+#' year group.
+#' @param academicYear academic year as integer.
+#' @param yearGroup year group as string.
+#' @examples
+#' gfs_clean_attainment(2020, "10")
+#' @export
+gfs_clean_attainment <- function(academicYear, yearGroup) {
+  ## Mesaage
+  message(cat(crayon::cyan("Generating clean attainment data for", academicYear, "year", yearGroup)))
+
+  ## Import data
+  df_att_grades <- gfs_attainment_grades(academicYear, yearGroup)
+  df_att_grade_types <- gfs_attainment_grade_types(academicYear, yearGroup)
+  df_students <- gfs_student_details(academicYear)
+  df_students_details <- gfs_student_edu_details(academicYear)
+  df_subjects <- gfs_teaching_subjects(academicYear)
+  df_teaching_groups <- gfs_teaching_groups(academicYear)
+  df_teaching_groups_students <- gfs_teaching_groups_students(academicYear)
+  df_teaching_groups_teachers <- gfs_teaching_groups_teachers(academicYear)
+  df_teachers <- gfs_teaching_teachers(academicYear)
+
+  ## Merge
+  df <- dplyr::left_join(df_att_grades, df_att_grade_types, by = c("grades.grade_type_id" = "id"))
+  df <- dplyr::left_join(df, df_subjects, by = c("grades.subject_id" = "id"))
+  df <- dplyr::left_join(df, df_students, by = c("grades.student_id" = "id"))
+  df <- dplyr::left_join(df, df_students_details, by = c("grades.student_id" = "student_id"))
+  df_02 <- dplyr::left_join(df_teaching_groups, df_teaching_groups_students, by = c("id" = "group_id"))
+  df_02 <- dplyr::left_join(df_02, df_subjects, by = c("subject_id" = "id"))
+  df_02 <- dplyr::left_join(df_02, df_teaching_groups_teachers, by = c("id" = "group_id"))
+  df_02 <- dplyr::left_join(df_02, df_teachers, by = c("teacher_ids" = "id"))
+  df_02 <- dplyr::select(df_02, c("Class" = name.x, student_ids, "Subject.Code" = code.y, "Teacher" = initials))
+  df_02 <- unique(df_02)
+  df <- dplyr::left_join(df, df_02, by = c("grades.student_id" = "student_ids", "code" = "Subject.Code"))
+
+  ## Tidy
+  df$Surname.Forename.Reg <- paste0(toupper(df$preferred_last_name), " ", df$preferred_first_name, " (", df$registration_group, ")")
+  df <- dplyr::select(df, c(Teacher, "Year.Group" = year_group, "Subject" = name.y, Class,
+                            "UPN" = upn, "GFSID" = grades.student_id, Surname.Forename.Reg,
+                            "Surname" = preferred_last_name, "Forename" = preferred_first_name,
+                            "Reg" = registration_group, "Gender" = sex, "Grade.Type" = name.x, "Grade" = grades.name))
+  df <- unique(df)
+
+  ## Return
+  return(df)
+}
+
+## Clean attainment multiple
+#' Get clean attainment data for multiple year groups.
+#'
+#' Returns clean details of attainment in the chosen academic year for multiple
+#' year groups.
+#' @param academicYear academic year as integer.
+#' @param yearGroupFrom starting year group as string.
+#' @param yearGroupTo ending year group as string.
+#' @examples
+#' gfs_clean_attainment_multiple(2021, "7", "11")
+#' @export
+gfs_clean_attainment_multiple <- function(academicYear, yearGroupFrom, yearGroupTo) {
+  ## Mesaage
+  message(cat(crayon::cyan("Generating clean attainment data for year groups", yearGroupFrom, "to", yearGroupTo)))
+
+  ## Loop clean attainment
+  df <- lapply(seq(yearGroupFrom, yearGroupTo, 1), function(i) gfs_clean_attainment(academicYear, yearGroup = i))
+  df <- dplyr::bind_rows(df)
+  df <- unique(df)
 
   ## Return
   return(df)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/14_g4s_clean_attainment_functions.R
 \name{gfs_clean_exam_results}
 \alias{gfs_clean_exam_results}
-\title{Get external examination results.}
+\title{Get clean external examination results.}
 \usage{
 gfs_clean_exam_results(academicYear, yearGroup, type = NULL)
 }
