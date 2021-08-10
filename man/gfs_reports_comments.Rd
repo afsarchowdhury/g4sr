@@ -9,7 +9,7 @@ gfs_reports_comments(academicYear, reportID)
 \arguments{
 \item{academicYear}{academic year as integer.}
 
-\item{reportID}{reportID year as integer.}
+\item{reportID}{report ID as integer.}
 }
 \description{
 Returns comments for students in chosen academic year and report.

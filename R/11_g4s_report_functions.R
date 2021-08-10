@@ -39,7 +39,7 @@ gfs_reports <- function(academicYear) {
 #' * Use `gfs_teaching_subjects()` to resolve subject details.
 #' * Use `gfs_student_details()` to resolve student personal details.
 #' @param academicYear academic year as integer.
-#' @param academicYear reportID year as integer.
+#' @param reportID report ID year as integer.
 #' @examples
 #' gfs_reports_attributes(2021, 57102)
 #' @export
@@ -74,7 +74,7 @@ gfs_reports_attributes <- function(academicYear, reportID) {
 #' * Use `gfs_teaching_subjects()` to resolve subject details.
 #' * Use `gfs_student_details()` to resolve student personal details.
 #' @param academicYear academic year as integer.
-#' @param academicYear reportID year as integer.
+#' @param reportID report ID as integer.
 #' @examples
 #' gfs_reports_grades(2021, 57102)
 #' @export
@@ -109,7 +109,7 @@ gfs_reports_grades <- function(academicYear, reportID) {
 #' * Use `gfs_teaching_subjects()` to resolve subject details.
 #' * Use `gfs_student_details()` to resolve student personal details.
 #' @param academicYear academic year as integer.
-#' @param reportID reportID year as integer.
+#' @param reportID report ID as integer.
 #' @examples
 #' gfs_reports_comments(2021, 57102)
 #' @export

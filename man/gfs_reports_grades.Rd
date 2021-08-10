@@ -7,7 +7,9 @@
 gfs_reports_grades(academicYear, reportID)
 }
 \arguments{
-\item{academicYear}{reportID year as integer.}
+\item{academicYear}{academic year as integer.}
+
+\item{reportID}{report ID as integer.}
 }
 \description{
 Returns grades for students in chosen academic year and report.
