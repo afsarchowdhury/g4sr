@@ -43,7 +43,7 @@ gfs_attendance_codes <- function(academicYear) {
 #' @export
 gfs_attendance_student_session_marks <- function(academicYear, goDate) {
   ## Message
-  message(cat(crayon::silver("Request student session marks")))
+  message(cat(crayon::silver("Request student session marks for", goDate)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_attendance, "/student-session-marks/date/", goDate)
@@ -52,7 +52,7 @@ gfs_attendance_student_session_marks <- function(academicYear, goDate) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  message(paste0("Status code: ", .result$status_code, " for ", goDate))
+  .gfs_query_message()
 
   ## Parse returned data as text
   response <- httr::content(.result, as = "text", encoding = "UTF-8")
@@ -76,7 +76,7 @@ gfs_attendance_student_session_marks <- function(academicYear, goDate) {
 #' @export
 gfs_attendance_student_lesson_marks <- function(academicYear, goDate) {
   ## Message
-  message(cat(crayon::silver("Request student lesson marks")))
+  message(cat(crayon::silver("Request student lesson marks for", goDate)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_attendance, "/student-lesson-marks/date/", goDate)
@@ -85,7 +85,7 @@ gfs_attendance_student_lesson_marks <- function(academicYear, goDate) {
   .gfs_query()
 
   ## Check if the API returned an error. If the request fails the API will return a non-200 status code
-  message(paste0("Status code: ", .result$status_code, " for ", goDate))
+  .gfs_query_message()
 
   ## Parse returned data as text
   response <- httr::content(.result, as = "text", encoding = "UTF-8")
