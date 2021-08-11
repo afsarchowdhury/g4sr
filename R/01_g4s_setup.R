@@ -39,8 +39,9 @@ message_cursor <- paste0("Cursor at student ID:")
 
 .gfs_query_message <- function() {
   if (.result$status_code > 200) {
-    message(cat(crayon::red("Status code:", .result$status_code,
-                            "\nSee https://www.go4schools.com/Documentation/V1/APIDocumentation.html#errors")))
+    stop(crayon::red("Status code", .result$status_code,
+                            "\nSee https://www.go4schools.com/Documentation/V1/APIDocumentation.html#errors"),
+         call. = FALSE)
   } else {
     message(cat(crayon::green("Status code:", .result$status_code)))
   }
