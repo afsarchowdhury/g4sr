@@ -6,8 +6,8 @@
 #' Returns clean behaviour events over a range of dates within in the chosen
 #' academic year.
 #' @param academicYear academic year as integer.
-#' @param yearGroup year group as string.
-#' @param type qualification type as string.
+#' @param goDateStart start date of range as string in the form yyyy-mm-dd.
+#' @param goDateEnd end date of range as string in the form yyyy-mm-dd.
 #' @examples
 #' gfs_clean_behaviour_events_range(2021, "2021-07-12", "2021-07-16")
 #' @export

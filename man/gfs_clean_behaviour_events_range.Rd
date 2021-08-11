@@ -9,9 +9,9 @@ gfs_clean_behaviour_events_range(academicYear, goDateStart, goDateEnd)
 \arguments{
 \item{academicYear}{academic year as integer.}
 
-\item{yearGroup}{year group as string.}
+\item{goDateStart}{start date of range as string in the form yyyy-mm-dd.}
 
-\item{type}{qualification type as string.}
+\item{goDateEnd}{end date of range as string in the form yyyy-mm-dd.}
 }
 \description{
 Returns clean behaviour events over a range of dates within in the chosen
