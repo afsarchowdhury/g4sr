@@ -166,8 +166,6 @@ gfs_behaviour_events <- function(academicYear, goDate) {
 #' gfs_behaviour_events_range(2020, "2020-03-16", "2020-03-19")
 #' @export
 gfs_behaviour_events_range <- function(academicYear, goDateStart, goDateEnd) {
-  ## Message
-  message(cat(crayon::silver("Request events range", goDateStart, "to", goDateEnd)))
 
   ## Create date range sequence
   goDate <- seq(as.Date(goDateStart), as.Date(goDateEnd), 1)
