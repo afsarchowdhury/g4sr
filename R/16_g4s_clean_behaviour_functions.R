@@ -41,7 +41,7 @@ gfs_clean_behaviour_events_range <- function(academicYear, goDateStart, goDateEn
   df_02 <- dplyr::select(df_02, c("Class" = name.x, "subject_code" = code.y, student_ids))
   df_02 <- unique(df_02)
   df <- dplyr::left_join(df, df_02, by = c("subject_code", "student_ids"))
-  df_cal <- dplyr::select(df_cal, c("Date" = date, "School.Week" = week))
+  df_cal <- dplyr::select(df_cal, c("Date" = date, "School.Week" = week, "Day.Type" = day_type_code))
   df <- dplyr::left_join(df, df_cal, by = c("event_date" = "Date"))
 
   message(cat(crayon::silver("Compute metadata")))
@@ -57,7 +57,7 @@ gfs_clean_behaviour_events_range <- function(academicYear, goDateStart, goDateEn
                             "UPN" = upn, "GFSID" = student_ids, Surname.Forename.Reg,
                             "Surname" = preferred_last_name, "Forename" = preferred_first_name,
                             "Reg" = registration_group, "Gender" = sex,
-                            "Date" = event_date, "Timestamp" = created_timestamp, School.Week,
+                            "Date" = event_date, "Timestamp" = created_timestamp, School.Week, Day.Type,
                             "Event.Code" = code, "Event.Name" = name.x, "Event.Classification" = name.y,
                             "Polarity" = significance, "Score" = score, "School.Notes" = school_notes))
   df <- dplyr::mutate_all(df, .funs = as.character)
