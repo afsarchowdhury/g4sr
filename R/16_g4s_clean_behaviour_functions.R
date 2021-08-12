@@ -25,6 +25,7 @@ gfs_clean_behaviour_events_range <- function(academicYear, goDateStart, goDateEn
   df_teaching_groups <- gfs_teaching_groups(academicYear)
   df_teaching_groups_students <- gfs_teaching_groups_students(academicYear)
   df_staff <- gfs_users_staff()
+  df_cal <- gfs_calendar(academicYear)
 
   message(cat(crayon::silver("Merge datasets")))
 
@@ -40,6 +41,8 @@ gfs_clean_behaviour_events_range <- function(academicYear, goDateStart, goDateEn
   df_02 <- dplyr::select(df_02, c("Class" = name.x, "subject_code" = code.y, student_ids))
   df_02 <- unique(df_02)
   df <- dplyr::left_join(df, df_02, by = c("subject_code", "student_ids"))
+  df_cal <- dplyr::select(df_cal, c("Date" = date, "School.Week" = week))
+  df <- dplyr::left_join(df, df_cal, by = c("event_date" = "Date"))
 
   message(cat(crayon::silver("Compute metadata")))
 
@@ -49,14 +52,14 @@ gfs_clean_behaviour_events_range <- function(academicYear, goDateStart, goDateEn
   message(cat(crayon::silver("Clean final output")))
 
   ## Tidy
-  df <- dplyr::select(df, c("Staff" = display_name, "Email.Staff" = email_address,
+  df <- dplyr::select(df, c("Event.ID" = id, "Staff" = display_name, "Email.Staff" = email_address,
                             "Year.Group" = national_curriculum_year, "Subject" = subject_code, Class, "Room" = room_name,
                             "UPN" = upn, "GFSID" = student_ids, Surname.Forename.Reg,
                             "Surname" = preferred_last_name, "Forename" = preferred_first_name,
                             "Reg" = registration_group, "Gender" = sex,
-                            "Date" = event_date, "Timestamp" = created_timestamp,
-                            "Event.Code" = code, "Event.Name" = name.x, "Event.Classification" = name.y, "Polarity" = significance,
-                            "School.Notes" = school_notes))
+                            "Date" = event_date, "Timestamp" = created_timestamp, School.Week,
+                            "Event.Code" = code, "Event.Name" = name.x, "Event.Classification" = name.y,
+                            "Polarity" = significance, "Score" = score, "School.Notes" = school_notes))
   df <- unique(df)
   df$Email.Staff <- tolower(df$Email.Staff)
 
