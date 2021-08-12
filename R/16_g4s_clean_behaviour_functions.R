@@ -60,8 +60,16 @@ gfs_clean_behaviour_events_range <- function(academicYear, goDateStart, goDateEn
                             "Date" = event_date, "Timestamp" = created_timestamp, School.Week,
                             "Event.Code" = code, "Event.Name" = name.x, "Event.Classification" = name.y,
                             "Polarity" = significance, "Score" = score, "School.Notes" = school_notes))
+  df <- dplyr::mutate_all(df, .funs = as.character)
   df <- unique(df)
   df$Email.Staff <- tolower(df$Email.Staff)
+
+  message(cat(crayon::silver("Lookup student demographic data")))
+
+  ## Student demographics
+  df_stu <- gfs_clean_student_details_general(academicYear)
+  df_stu <- dplyr::select(df_stu, c(GFSID, Ethnicity:ncol(df_stu)))
+  df <- dplyr::left_join(df, df_stu, by = c("GFSID"))
 
   ## Return
   return(df)
