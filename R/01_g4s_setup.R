@@ -37,10 +37,46 @@ gfs_setup <- function(api_key) {
 message_pagination <- paste0("Process pagination")
 message_cursor <- paste0("Cursor at student ID:")
 
+# .gfs_query_message <- function() {
+#   if (.result$status_code > 200) {
+#     stop(crayon::red("Status code", .result$status_code,
+#                      "\nSee https://www.go4schools.com/Documentation/V1/APIDocumentation.html#errors"),
+#          call. = FALSE)
+#   } else {
+#     message(cat(crayon::green("Status code:", .result$status_code)))
+#   }
+# }
+
 .gfs_query_message <- function() {
-  if (.result$status_code > 200) {
+  if (.result$status_code == 400) {
     stop(crayon::red("Status code", .result$status_code,
-                            "\nSee https://www.go4schools.com/Documentation/V1/APIDocumentation.html#errors"),
+                     "\nBad request.",
+                     "\nSee https://www.go4schools.com/Documentation/V1/APIDocumentation.html#errors"),
+         call. = FALSE)
+  } else if (.result$status_code == 401) {
+    stop(crayon::red("Status code", .result$status_code,
+                     "\nUnauthorised. Your API key is not valid for this request.",
+                     "\nSee https://www.go4schools.com/Documentation/V1/APIDocumentation.html#errors"),
+         call. = FALSE)
+  } else if (.result$status_code == 403) {
+    stop(crayon::red("Status code", .result$status_code,
+                     "\nForbidden. Your data officer has disabled this module or embargoed it.",
+                     "\nSee https://www.go4schools.com/Documentation/V1/APIDocumentation.html#errors"),
+         call. = FALSE)
+  } else if (.result$status_code == 404) {
+    stop(crayon::red("Status code", .result$status_code,
+                     "\nNot found. Check with your school if the resource exists.",
+                     "\nSee https://www.go4schools.com/Documentation/V1/APIDocumentation.html#errors"),
+         call. = FALSE)
+  } else if (.result$status_code == 429) {
+    stop(crayon::red("Status code", .result$status_code,
+                     "\nToo many requests.",
+                     "\nSee https://www.go4schools.com/Documentation/V1/APIDocumentation.html#errors"),
+         call. = FALSE)
+  } else if (.result$status_code == 500) {
+    stop(crayon::red("Status code", .result$status_code,
+                     "\nInternal server error. Try again later.",
+                     "\nSee https://www.go4schools.com/Documentation/V1/APIDocumentation.html#errors"),
          call. = FALSE)
   } else {
     message(cat(crayon::green("Status code:", .result$status_code)))
