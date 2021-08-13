@@ -4,7 +4,12 @@
 \alias{gfs_clean_class_list_teacher}
 \title{Get teacher-focused class list.}
 \usage{
-gfs_clean_class_list_teacher(academicYear, staffCode = NULL)
+gfs_clean_class_list_teacher(
+  academicYear,
+  staffCode = NULL,
+  yearGroupFrom = "7",
+  yearGroupTo = "11"
+)
 }
 \arguments{
 \item{academicYear}{academic year as integer.}

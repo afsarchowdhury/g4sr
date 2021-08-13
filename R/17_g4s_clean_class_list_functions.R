@@ -11,8 +11,8 @@
 #' gfs_clean_class_list_teacher(2020, "ACH")
 #' gfs_clean_class_list_teacher(2020)
 #' @export
-gfs_clean_class_list_teacher <- function(academicYear, staffCode = NULL) {
-  ## Mesaage
+gfs_clean_class_list_teacher <- function(academicYear, staffCode = NULL, yearGroupFrom = "7", yearGroupTo = "11") {
+  ## Message
   message(cat(crayon::cyan("Generating clean teacher-focused class list")))
 
   ## Import data
@@ -25,6 +25,14 @@ gfs_clean_class_list_teacher <- function(academicYear, staffCode = NULL) {
   df_students_details <- gfs_student_edu_details(academicYear = academicYear)
   df_students_sensitive <- gfs_student_sensitive(academicYear = academicYear)
   df_teachers <- gfs_teaching_teachers(academicYear = academicYear)
+  # Loop attainment grades
+  df_att_grades <- lapply(seq(yearGroupFrom, yearGroupTo, 1), function(i) gfs_attainment_grades(academicYear, yearGroup = i))
+  df_att_grades <- dplyr::bind_rows(df_att_grades)
+  df_att_grades <- unique(df_att_grades)
+  # Loop attainment grade types
+  df_att_grade_types <- lapply(seq(yearGroupFrom, yearGroupTo, 1), function(i) gfs_attainment_grade_types(academicYear, yearGroup = i))
+  df_att_grade_types <- dplyr::bind_rows(df_att_grade_types)
+  df_att_grade_types <- unique(df_att_grade_types)
 
   message(cat(crayon::silver("Tidy datasets")))
 
@@ -47,6 +55,15 @@ gfs_clean_class_list_teacher <- function(academicYear, staffCode = NULL) {
   df_students_sensitive_02 <- dplyr::select(df_students_sensitive_02, c(student_id, "LAC" = Looked.after, Ethnicity, EAL, FSM,
                                                                         "PP" = Pupil.Premium.Indicator))
 
+  ## Tidy attainment
+  df_att <- dplyr::left_join(df_att_grades, df_att_grade_types, by = c("grades.grade_type_id" = "id"))
+  df_att <- dplyr::filter(df_att, name == "Target")
+  df_att <- dplyr::left_join(df_att, df_teaching_subjects, by = c("grades.subject_id" = "id"))
+  df_att <- dplyr::left_join(df_att, df_students, by = c("grades.student_id" = "id"))
+  df_att <- dplyr::left_join(df_att, df_students_details, by = c("grades.student_id" = "student_id"))
+  df_att <- dplyr::select(df_att, c("GFSID" = grades.student_id, "Subject" = name.y, "Target" = grades.name))
+  df_att <- unique(df_att)
+
   message(cat(crayon::silver("Merge datasets")))
 
   ## Merge datasets
@@ -58,6 +75,7 @@ gfs_clean_class_list_teacher <- function(academicYear, staffCode = NULL) {
   df <- dplyr::left_join(df, df_students_details, by = c("student_ids" = "student_id"))
   df <- dplyr::left_join(df, df_students_sensitive_02, by = c("student_ids" = "student_id"))
   df <- dplyr::left_join(df, df_students_general_02, by = c("student_ids" = "student_id"))
+  df <- dplyr::left_join(df, df_att, by = c("student_ids" = "GFSID", "name.y" = "Subject"))
 
   message(cat(crayon::silver("Compute metadata")))
 
@@ -73,13 +91,13 @@ gfs_clean_class_list_teacher <- function(academicYear, staffCode = NULL) {
     df <- dplyr::select(df, c("Teacher" = initials, "Year.Group" = year_group, "Reg" = registration_group, "Subject" = name.y,
                               "Class" = name.x, "UPN" = upn, "GFSID" = student_ids, UCI, Surname.Forename.Reg,
                               "Surname" = preferred_last_name.x, "Forename" = preferred_first_name.x,
-                              "Gender" = sex, LAC, Ethnicity, EAL, FSM, PP, WBr.PP, HML.Band,
+                              "Gender" = sex, LAC, Ethnicity, EAL, FSM, PP, WBr.PP, HML.Band, Target,
                               SEN, SEN.Notes, Keyworker, CP.CAF, Young.Carer))
   } else {
     df <- dplyr::filter(df, initials %in% staffCode)
     df <- dplyr::select(df, c("Teacher" = initials, "Year.Group" = year_group, "Reg" = registration_group, "Subject" = name.y,
                               "Class" = name.x, "UPN" = upn, "GFSID" = student_ids, UCI, Surname.Forename.Reg,
-                              "Surname" = preferred_last_name.x, "Forename" = preferred_first_name.x,
+                              "Surname" = preferred_last_name.x, "Forename" = preferred_first_name.x, Target,
                               "Gender" = sex, LAC, Ethnicity, EAL, FSM, PP, WBr.PP, HML.Band,
                               SEN, SEN.Notes, Keyworker, CP.CAF, Young.Carer))
   }
@@ -100,7 +118,7 @@ gfs_clean_class_list_teacher <- function(academicYear, staffCode = NULL) {
 #' gfs_class_list_student(2020, "smith")
 #' @export
 gfs_clean_class_list_student <- function(academicYear, student) {
-  ## Mesaage
+  ## Message
   message(cat(crayon::cyan("Generating clean student-focused class list")))
 
   ## Import data
