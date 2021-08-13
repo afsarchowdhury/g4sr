@@ -1,0 +1,167 @@
+# Clean class list functions ---------------------------
+
+## Class list by teacher
+#' Get teacher-focused class list.
+#'
+#' Returns clean details of all classes in the chosen academic year for chosen
+#' staff.  If staff code is not provided, class list for all staff are returned.
+#' @param academicYear academic year as integer.
+#' @param staffCode case-sensitive staff code as string.
+#' @examples
+#' gfs_clean_class_list_teacher(2020, "ACH")
+#' gfs_clean_class_list_teacher(2020)
+#' @export
+gfs_clean_class_list_teacher <- function(academicYear, staffCode = NULL) {
+  ## Mesaage
+  message(cat(crayon::cyan("Generating clean teacher-focused class list")))
+
+  ## Import data
+  df_teaching_groups <- gfs_teaching_groups(academicYear = academicYear)
+  df_teaching_groups_students <- gfs_teaching_groups_students(academicYear = academicYear)
+  df_teaching_groups_teachers <- gfs_teaching_groups_teachers(academicYear = academicYear)
+  df_teaching_subjects <- gfs_teaching_subjects(academicYear = academicYear)
+  df_students <- gfs_student_details(academicYear = academicYear)
+  df_students_general <- gfs_student_general(academicYear)
+  df_students_details <- gfs_student_edu_details(academicYear = academicYear)
+  df_students_sensitive <- gfs_student_sensitive(academicYear = academicYear)
+  df_teachers <- gfs_teaching_teachers(academicYear = academicYear)
+
+  message(cat(crayon::silver("Tidy datasets")))
+
+  ## Tidy general
+  df_students_general_02 <- dplyr::select(df_students_general, c(student_id, name, value))
+  df_students_general_02 <- dplyr::filter(df_students_general_02,
+                                          grepl(pattern = "uci|hml|sen|key|caf|young",
+                                                x = name, ignore.case = TRUE))
+  df_students_general_02 <- tidyr::pivot_wider(df_students_general_02, names_from = name, values_from = value)
+  df_students_general_02 <- data.frame(df_students_general_02, check.names = TRUE)
+  df_students_general_02 <- dplyr::select(df_students_general_02,
+                                          c(student_id, UCI, HML.Band, "SEN" = X3...SEN.Code,
+                                            "SEN.Notes" = X4..SEN.Notes, "Keyworker" = X5..Keyworker.Name, CP.CAF, Young.Carer))
+  df_students_general_02 <- unique(df_students_general_02)
+
+  ## Tidy sensitive
+  df_students_sensitive_02 <- dplyr::select(df_students_sensitive, c(student_id, name, value))
+  df_students_sensitive_02 <- tidyr::pivot_wider(df_students_sensitive_02, names_from = name, values_from = value)
+  df_students_sensitive_02 <- data.frame(df_students_sensitive_02, check.names = TRUE)
+  df_students_sensitive_02 <- dplyr::select(df_students_sensitive_02, c(student_id, "LAC" = Looked.after, Ethnicity, EAL, FSM,
+                                                                        "PP" = Pupil.Premium.Indicator))
+
+  message(cat(crayon::silver("Merge datasets")))
+
+  ## Merge datasets
+  df <- dplyr::left_join(df_teaching_groups, df_teaching_groups_students, by = c("id" = "group_id"))
+  df <- dplyr::left_join(df, df_students, by = c("student_ids" = "id"))
+  df <- dplyr::left_join(df, df_teaching_groups_teachers, by = c("id" = "group_id"))
+  df <- dplyr::left_join(df, df_teachers, by = c("teacher_ids" = "id"))
+  df <- dplyr::left_join(df, df_teaching_subjects, by = c("subject_id" = "id"))
+  df <- dplyr::left_join(df, df_students_details, by = c("student_ids" = "student_id"))
+  df <- dplyr::left_join(df, df_students_sensitive_02, by = c("student_ids" = "student_id"))
+  df <- dplyr::left_join(df, df_students_general_02, by = c("student_ids" = "student_id"))
+
+  message(cat(crayon::silver("Compute metadata")))
+
+  ## Create
+  df$Surname.Forename.Reg <- paste0(toupper(df$preferred_last_name.x), " ", df$preferred_first_name.x, " (", df$registration_group, ")")
+  df <- dplyr::mutate(df, WBr.PP = ifelse(grepl(pattern = "english|scottish|welsh", x = Ethnicity, ignore.case = TRUE) & PP == "True", "True", "False"))
+
+  message(cat(crayon::silver("Clean final output")))
+
+  ## Clean and filter
+  if (is.null(staffCode)) {
+    message(cat(crayon::silver("No staffCode provided.  Return all.")))
+    df <- dplyr::select(df, c("Teacher" = initials, "Year.Group" = year_group, "Reg" = registration_group, "Subject" = name.y,
+                              "Class" = name.x, "UPN" = upn, "GFSID" = student_ids, UCI, Surname.Forename.Reg,
+                              "Surname" = preferred_last_name.x, "Forename" = preferred_first_name.x,
+                              "Gender" = sex, LAC, Ethnicity, EAL, FSM, PP, WBr.PP, HML.Band,
+                              SEN, SEN.Notes, Keyworker, CP.CAF, Young.Carer))
+  } else {
+    df <- dplyr::filter(df, initials %in% staffCode)
+    df <- dplyr::select(df, c("Teacher" = initials, "Year.Group" = year_group, "Reg" = registration_group, "Subject" = name.y,
+                              "Class" = name.x, "UPN" = upn, "GFSID" = student_ids, UCI, Surname.Forename.Reg,
+                              "Surname" = preferred_last_name.x, "Forename" = preferred_first_name.x,
+                              "Gender" = sex, LAC, Ethnicity, EAL, FSM, PP, WBr.PP, HML.Band,
+                              SEN, SEN.Notes, Keyworker, CP.CAF, Young.Carer))
+  }
+  df <- unique(df)
+
+  ## Return
+  return(df)
+}
+
+## Class list by student
+#' Get student-focused class list.
+#'
+#' Returns clean details of all classes in the chosen academic year for chosen
+#' student.
+#' @param academicYear academic year as integer.
+#' @param student student search string.
+#' @examples
+#' gfs_class_list_student(2020, "smith")
+#' @export
+gfs_clean_class_list_student <- function(academicYear, student) {
+  ## Mesaage
+  message(cat(crayon::cyan("Generating clean student-focused class list")))
+
+  ## Import data
+  df_teaching_groups <- gfs_teaching_groups(academicYear = academicYear)
+  df_teaching_groups_students <- gfs_teaching_groups_students(academicYear = academicYear)
+  df_teaching_groups_teachers <- gfs_teaching_groups_teachers(academicYear = academicYear)
+  df_teaching_subjects <- gfs_teaching_subjects(academicYear = academicYear)
+  df_students <- gfs_student_details(academicYear = academicYear)
+  df_students_general <- gfs_student_general(academicYear)
+  df_students_details <- gfs_student_edu_details(academicYear = academicYear)
+  df_students_sensitive <- gfs_student_sensitive(academicYear = academicYear)
+  df_teachers <- gfs_teaching_teachers(academicYear = academicYear)
+
+  message(cat(crayon::silver("Tidy datasets")))
+
+  ## Tidy general
+  df_students_general_02 <- dplyr::select(df_students_general, c(student_id, name, value))
+  df_students_general_02 <- dplyr::filter(df_students_general_02,
+                                          grepl(pattern = "uci|hml|sen|key|caf|young",
+                                                x = name, ignore.case = TRUE))
+  df_students_general_02 <- tidyr::pivot_wider(df_students_general_02, names_from = name, values_from = value)
+  df_students_general_02 <- data.frame(df_students_general_02, check.names = TRUE)
+  df_students_general_02 <- dplyr::select(df_students_general_02,
+                                          c(student_id, UCI, HML.Band, "SEN" = X3...SEN.Code,
+                                            "SEN.Notes" = X4..SEN.Notes, "Keyworker" = X5..Keyworker.Name, CP.CAF, Young.Carer))
+  df_students_general_02 <- unique(df_students_general_02)
+
+  ## Tidy sensitive
+  df_students_sensitive_02 <- dplyr::select(df_students_sensitive, c(student_id, name, value))
+  df_students_sensitive_02 <- tidyr::pivot_wider(df_students_sensitive_02, names_from = name, values_from = value)
+  df_students_sensitive_02 <- data.frame(df_students_sensitive_02, check.names = TRUE)
+  df_students_sensitive_02 <- dplyr::select(df_students_sensitive_02, c(student_id, "LAC" = Looked.after, Ethnicity, EAL, FSM,
+                                                                        "PP" = Pupil.Premium.Indicator))
+
+  message(cat(crayon::silver("Merge datasets")))
+
+  ## Merge datasets
+  df <- dplyr::left_join(df_teaching_groups, df_teaching_groups_students, by = c("id" = "group_id"))
+  df <- dplyr::left_join(df, df_students, by = c("student_ids" = "id"))
+  df <- dplyr::left_join(df, df_teaching_groups_teachers, by = c("id" = "group_id"))
+  df <- dplyr::left_join(df, df_teachers, by = c("teacher_ids" = "id"))
+  df <- dplyr::left_join(df, df_teaching_subjects, by = c("subject_id" = "id"))
+  df <- dplyr::left_join(df, df_students_details, by = c("student_ids" = "student_id"))
+  df <- dplyr::left_join(df, df_students_sensitive_02, by = c("student_ids" = "student_id"))
+  df <- dplyr::left_join(df, df_students_general_02, by = c("student_ids" = "student_id"))
+
+  message(cat(crayon::silver("Compute metadata")))
+
+  ## Create
+  df$Surname.Forename.Reg <- paste0(toupper(df$preferred_last_name.x), " ", df$preferred_first_name.x, " (", df$registration_group, ")")
+  df <- dplyr::mutate(df, WBr.PP = ifelse(grepl(pattern = "english|scottish|welsh", x = Ethnicity, ignore.case = TRUE) & PP == "True", "True", "False"))
+
+  message(cat(crayon::silver("Clean final output")))
+
+  ## Clean
+  df <- dplyr::select(df, c("UPN" = upn, "GFSID" = student_ids, UCI, Surname.Forename.Reg, "Surname" = preferred_last_name.x,
+                            "Forename" = preferred_first_name.x, "Gender" = sex,
+                            LAC, Ethnicity, EAL, FSM, PP, WBr.PP, HML.Band, SEN, SEN.Notes, Keyworker, CP.CAF, Young.Carer,
+                            "Year.Group" = year_group, "Reg" = registration_group, "Subject" = name.y, "Class" = name.x,
+                            "Teacher" = initials))
+
+  df <- dplyr::filter(df, grepl(pattern = student, x = df$Surname.Forename, ignore.case = TRUE))
+  df <- unique(df)
+}
