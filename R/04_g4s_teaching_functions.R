@@ -10,7 +10,7 @@
 #' @export
 gfs_teaching_departments <- function(academicYear) {
   ## Message
-  message(cat(crayon::silver("Request teaching departments")))
+  message(cat(crayon::silver("Request teaching departments for", academicYear)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_teaching, "/departments")
@@ -39,7 +39,7 @@ gfs_teaching_departments <- function(academicYear) {
 #' @export
 gfs_teaching_subjects <- function(academicYear) {
   ## Message
-  message(cat(crayon::silver("Request teaching subjects")))
+  message(cat(crayon::silver("Request teaching subjects for", academicYear)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_teaching, "/subjects")
@@ -67,7 +67,7 @@ gfs_teaching_subjects <- function(academicYear) {
 #' @export
 gfs_teaching_teachers <- function(academicYear) {
   ## Message
-  message(cat(crayon::silver("Request teachers")))
+  message(cat(crayon::silver("Request teachers for", academicYear)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_teaching, "/teachers")
@@ -97,7 +97,7 @@ gfs_teaching_teachers <- function(academicYear) {
 #' @export
 gfs_teaching_groups <- function(academicYear) {
   ## Message
-  message(cat(crayon::silver("Request teaching groups")))
+  message(cat(crayon::silver("Request teaching groups for", academicYear)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_teaching, "/groups")
@@ -128,7 +128,7 @@ gfs_teaching_groups <- function(academicYear) {
 #' @export
 gfs_teaching_groups_students <- function(academicYear) {
   ## Message
-  message(cat(crayon::silver("Request students in teaching groups")))
+  message(cat(crayon::silver("Request students in teaching groups for", academicYear)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_teaching, "/groups/students")
@@ -160,7 +160,7 @@ gfs_teaching_groups_students <- function(academicYear) {
 #' @export
 gfs_teaching_groups_teachers <- function(academicYear) {
   ## Message
-  message(cat(crayon::silver("Request teachers in teaching groups")))
+  message(cat(crayon::silver("Request teachers in teaching groups for", academicYear)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_teaching, "/groups/teachers")

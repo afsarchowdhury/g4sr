@@ -11,7 +11,7 @@
 #' @export
 gfs_behaviour_followup <- function(academicYear) {
   ## Message
-  message(cat(crayon::silver("Request follow-up actions")))
+  message(cat(crayon::silver("Request follow-up actions for", academicYear)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_behaviour, "/actions/follow-up")
@@ -41,7 +41,7 @@ gfs_behaviour_followup <- function(academicYear) {
 #' @export
 gfs_behaviour_immediate <- function(academicYear) {
   ## Message
-  message(cat(crayon::silver("Request immediate actions")))
+  message(cat(crayon::silver("Request immediate actions for", academicYear)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_behaviour, "/actions/immediate")
@@ -71,7 +71,7 @@ gfs_behaviour_immediate <- function(academicYear) {
 #' @export
 gfs_behaviour_classification <- function(academicYear) {
   ## Message
-  message(cat(crayon::silver("Request behaviour classifications")))
+  message(cat(crayon::silver("Request behaviour classifications for", academicYear)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_behaviour, "/classification")
@@ -102,7 +102,7 @@ gfs_behaviour_classification <- function(academicYear) {
 #' @export
 gfs_behaviour_event_types <- function(academicYear) {
   ## Message
-  message(cat(crayon::silver("Request event types")))
+  message(cat(crayon::silver("Request event types for", academicYear)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_behaviour, "/event-types")
@@ -135,7 +135,7 @@ gfs_behaviour_event_types <- function(academicYear) {
 #' @export
 gfs_behaviour_events <- function(academicYear, goDate) {
   ## Message
-  message(cat(crayon::silver("Request events for", goDate)))
+  message(cat(crayon::silver("Request events for", academicYear, "date", goDate)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_behaviour, "/events/date/", goDate)

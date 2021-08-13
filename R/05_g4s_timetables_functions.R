@@ -11,7 +11,7 @@
 #' @export
 gfs_timetables <- function(academicYear) {
   ## Message
-  message(cat(crayon::silver("Request timetables")))
+  message(cat(crayon::silver("Request timetables for", academicYear)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_timetables)
@@ -42,7 +42,7 @@ gfs_timetables <- function(academicYear) {
 #' @export
 gfs_calendar <- function(academicYear) {
   ## Message
-  message(cat(crayon::silver("Request calendar")))
+  message(cat(crayon::silver("Request calendar for", academicYear)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_timetables, "/calendar")
@@ -73,7 +73,7 @@ gfs_calendar <- function(academicYear) {
 #' @export
 gfs_classes <- function(academicYear) {
   ## Message
-  message(cat(crayon::silver("Request classes")))
+  message(cat(crayon::silver("Request classes for", academicYear)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_timetables, "/classes")
@@ -103,7 +103,7 @@ gfs_classes <- function(academicYear) {
 #' @export
 gfs_student_classes <- function(academicYear) {
   ## Message
-  message(cat(crayon::silver("Request students assigned to classes")))
+  message(cat(crayon::silver("Request students assigned to classes for", academicYear)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_timetables, "/student-classes")

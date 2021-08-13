@@ -11,7 +11,7 @@
 #' @export
 gfs_attendance_codes <- function(academicYear) {
   ## Message
-  message(cat(crayon::silver("Request attendance codes")))
+  message(cat(crayon::silver("Request attendance codes for", academicYear)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_attendance, "/codes")
@@ -43,7 +43,7 @@ gfs_attendance_codes <- function(academicYear) {
 #' @export
 gfs_attendance_student_session_marks <- function(academicYear, goDate) {
   ## Message
-  message(cat(crayon::silver("Request student session marks for", goDate)))
+  message(cat(crayon::silver("Request student session marks for", academicYear, "date", goDate)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_attendance, "/student-session-marks/date/", goDate)
@@ -76,7 +76,7 @@ gfs_attendance_student_session_marks <- function(academicYear, goDate) {
 #' @export
 gfs_attendance_student_lesson_marks <- function(academicYear, goDate) {
   ## Message
-  message(cat(crayon::silver("Request student lesson marks for", goDate)))
+  message(cat(crayon::silver("Request student lesson marks for", academicYear, "date", goDate)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_attendance, "/student-lesson-marks/date/", goDate)
@@ -108,7 +108,7 @@ gfs_attendance_student_lesson_marks <- function(academicYear, goDate) {
 #' @export
 gfs_attendance_student_summary <- function(academicYear) {
   ## Message
-  message(cat(crayon::silver("Request student attendance summary")))
+  message(cat(crayon::silver("Request student attendance summary for", academicYear)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_attendance, "/student-session-summary")

@@ -11,7 +11,7 @@
 #' @export
 gfs_student_details <- function(academicYear) {
   ## Message
-  message(cat(crayon::silver("Request student details")))
+  message(cat(crayon::silver("Request student details for", academicYear)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_student)
@@ -42,7 +42,7 @@ gfs_student_details <- function(academicYear) {
 #' @export
 gfs_student_general <- function(academicYear) {
   ## Message
-  message(cat(crayon::silver("Request student general attributes")))
+  message(cat(crayon::silver("Request student general attributes for", academicYear)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_student, "/attributes")
@@ -71,7 +71,7 @@ gfs_student_general <- function(academicYear) {
 #' @export
 gfs_student_demographics <- function(academicYear) {
   ## Message
-  message(cat(crayon::silver("Request student demographic attributes")))
+  message(cat(crayon::silver("Request student demographic attributes for", academicYear)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_student, "/attributes/demographic")
@@ -101,7 +101,7 @@ gfs_student_demographics <- function(academicYear) {
 #' @export
 gfs_student_send <- function(academicYear) {
   ## Message
-  message(cat(crayon::silver("Request student SEN attributes")))
+  message(cat(crayon::silver("Request student SEN attributes for", academicYear)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_student, "/attributes/send")
@@ -131,7 +131,7 @@ gfs_student_send <- function(academicYear) {
 #' @export
 gfs_student_sensitive <- function(academicYear) {
   ## Message
-  message(cat(crayon::silver("Request student sensitive attributes")))
+  message(cat(crayon::silver("Request student sensitive attributes for", academicYear)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_student, "/attributes/sensitive")
@@ -159,7 +159,7 @@ gfs_student_sensitive <- function(academicYear) {
 #' @export
 gfs_student_edu_details <- function(academicYear) {
   ## Message
-  message(cat(crayon::silver("Request education details")))
+  message(cat(crayon::silver("Request education details for", academicYear)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_student, "/education-details")
@@ -200,7 +200,7 @@ gfs_student_edu_details <- function(academicYear) {
 #' @export
 gfs_student_medical <- function(academicYear) {
   ## Message
-  message(cat(crayon::silver("Request student medical conditions")))
+  message(cat(crayon::silver("Request student medical conditions for", academicYear)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_student, "/medical-conditions")

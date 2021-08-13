@@ -11,7 +11,7 @@
 #' @export
 gfs_attainment_grade_types <- function(academicYear, yearGroup) {
   ## Message
-  message(cat(crayon::silver("Request attainment grade types")))
+  message(cat(crayon::silver("Request attainment grade types for", academicYear, "year", yearGroup)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_attainment, "/grade-types/year-group/", yearGroup)
@@ -44,7 +44,7 @@ gfs_attainment_grade_types <- function(academicYear, yearGroup) {
 #' @export
 gfs_attainment_grades <- function(academicYear, yearGroup) {
   ## Message
-  message(cat(crayon::silver("Request attainment grades")))
+  message(cat(crayon::silver("Request attainment grades for", academicYear, "year", yearGroup)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_attainment, "/grades/year-group/", yearGroup)
@@ -77,7 +77,7 @@ gfs_attainment_grades <- function(academicYear, yearGroup) {
 #' @export
 gfs_attainment_exam_results <- function(academicYear, yearGroup) {
   ## Message
-  message(cat(crayon::silver("Request examination results")))
+  message(cat(crayon::silver("Request examination results for", academicYear, "year", yearGroup)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_attainment, "/exam-results/year-group/", yearGroup)
@@ -107,7 +107,7 @@ gfs_attainment_exam_results <- function(academicYear, yearGroup) {
 #' @export
 gfs_attainment_prior <- function(academicYear) {
   ## Message
-  message(cat(crayon::silver("Request prior attainment")))
+  message(cat(crayon::silver("Request prior attainment for", academicYear)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_attainment, "/prior-attainment")

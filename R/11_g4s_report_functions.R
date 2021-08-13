@@ -11,7 +11,7 @@
 #' @export
 gfs_reports <- function(academicYear) {
   ## Message
-  message(cat(crayon::silver("Request reports")))
+  message(cat(crayon::silver("Request reports for", academicYear)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_reports)
@@ -45,7 +45,7 @@ gfs_reports <- function(academicYear) {
 #' @export
 gfs_reports_attributes <- function(academicYear, reportID) {
   ## Message
-  message(cat(crayon::silver("Request report attributes")))
+  message(cat(crayon::silver("Request report attributes for", academicYear, "report ID", reportID)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_reports, "/", reportID, "/attributes")
@@ -80,7 +80,7 @@ gfs_reports_attributes <- function(academicYear, reportID) {
 #' @export
 gfs_reports_grades <- function(academicYear, reportID) {
   ## Message
-  message(cat(crayon::silver("Request report grades")))
+  message(cat(crayon::silver("Request report grades for", academicYear, "report ID", reportID)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_reports, "/", reportID, "/grades")
@@ -115,7 +115,7 @@ gfs_reports_grades <- function(academicYear, reportID) {
 #' @export
 gfs_reports_comments <- function(academicYear, reportID) {
   ## Message
-  message(cat(crayon::silver("Request report comments")))
+  message(cat(crayon::silver("Request report comments for", academicYear, "report ID", reportID)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_reports, "/", reportID, "/comments")

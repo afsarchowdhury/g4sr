@@ -11,7 +11,7 @@
 #' @export
 gfs_assessment_markbooks <- function(academicYear) {
   ## Message
-  message(cat(crayon::silver("Request assessment markbooks")))
+  message(cat(crayon::silver("Request assessment markbooks for", academicYear)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_assessment, "/markbooks")
@@ -44,7 +44,7 @@ gfs_assessment_markbooks <- function(academicYear) {
 #' @export
 gfs_assessment_marksheets <- function(academicYear) {
   ## Message
-  message(cat(crayon::silver("Request assessment marksheets")))
+  message(cat(crayon::silver("Request assessment marksheets for", academicYear)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_assessment, "/marksheet-grades")
@@ -73,7 +73,7 @@ gfs_assessment_marksheets <- function(academicYear) {
 #' @export
 gfs_assessment_marks <- function(academicYear) {
   ## Message
-  message(cat(crayon::silver("Request assessment marks")))
+  message(cat(crayon::silver("Request assessment marks for", academicYear)))
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_assessment, "/marks")
