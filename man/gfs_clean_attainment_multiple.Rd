@@ -13,9 +13,9 @@ gfs_clean_attainment_multiple(
 \arguments{
 \item{academicYear}{academic year as integer.}
 
-\item{yearGroupFrom}{starting year group as string.}
+\item{yearGroupFrom}{starting year group as string.  Defaults to "7".}
 
-\item{yearGroupTo}{ending year group as string.}
+\item{yearGroupTo}{ending year group as string.  Defaults to "11".}
 }
 \description{
 Returns clean details of attainment in the chosen academic year for multiple

@@ -7,6 +7,8 @@
 #' staff.  If staff code is not provided, class list for all staff are returned.
 #' @param academicYear academic year as integer.
 #' @param staffCode case-sensitive staff code as string.
+#' @param yearGroupFrom starting year group as string.  Defaults to "7".
+#' @param yearGroupTo ending year group as string.  Defaults to "11".
 #' @examples
 #' gfs_clean_class_list_teacher(2020, "ACH")
 #' gfs_clean_class_list_teacher(2020)

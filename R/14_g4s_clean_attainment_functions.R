@@ -150,8 +150,8 @@ gfs_clean_attainment <- function(academicYear, yearGroup) {
 #' Returns clean details of attainment in the chosen academic year for multiple
 #' year groups.
 #' @param academicYear academic year as integer.
-#' @param yearGroupFrom starting year group as string.
-#' @param yearGroupTo ending year group as string.
+#' @param yearGroupFrom starting year group as string.  Defaults to "7".
+#' @param yearGroupTo ending year group as string.  Defaults to "11".
 #' @examples
 #' gfs_clean_attainment_multiple(2021, "7", "11")
 #' @export

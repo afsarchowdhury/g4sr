@@ -15,6 +15,10 @@ gfs_clean_class_list_teacher(
 \item{academicYear}{academic year as integer.}
 
 \item{staffCode}{case-sensitive staff code as string.}
+
+\item{yearGroupFrom}{starting year group as string.  Defaults to "7".}
+
+\item{yearGroupTo}{ending year group as string.  Defaults to "11".}
 }
 \description{
 Returns clean details of all classes in the chosen academic year for chosen
