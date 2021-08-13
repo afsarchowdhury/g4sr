@@ -12,14 +12,6 @@ gfs_clean_student_details_general <- function(academicYear) {
   ## Mesaage
   message(cat(crayon::cyan("Generating clean student details")))
 
-  ## School details
-  my_school <- gfs_school()
-
-  ## Define variables
-  my_school_name <- my_school$name
-  my_school_years <- my_school$academic_years
-  my_school_years_current <- my_school$current_academic_year
-
   ## Import data
   df_students <- gfs_student_details(academicYear)
   df_students_general <- gfs_student_general(academicYear)
