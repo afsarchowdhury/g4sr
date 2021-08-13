@@ -4,7 +4,11 @@
 \alias{gfs_clean_attainment_multiple}
 \title{Get clean attainment data for multiple year groups.}
 \usage{
-gfs_clean_attainment_multiple(academicYear, yearGroupFrom, yearGroupTo)
+gfs_clean_attainment_multiple(
+  academicYear,
+  yearGroupFrom = "7",
+  yearGroupTo = "11"
+)
 }
 \arguments{
 \item{academicYear}{academic year as integer.}

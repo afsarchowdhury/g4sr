@@ -155,13 +155,55 @@ gfs_clean_attainment <- function(academicYear, yearGroup) {
 #' @examples
 #' gfs_clean_attainment_multiple(2021, "7", "11")
 #' @export
-gfs_clean_attainment_multiple <- function(academicYear, yearGroupFrom, yearGroupTo) {
+gfs_clean_attainment_multiple <- function(academicYear, yearGroupFrom = "7", yearGroupTo = "11") {
   ## Mesaage
   message(cat(crayon::cyan("Generating clean attainment data for year groups", yearGroupFrom, "to", yearGroupTo)))
 
-  ## Loop clean attainment
-  df <- lapply(seq(yearGroupFrom, yearGroupTo, 1), function(i) gfs_clean_attainment(academicYear, yearGroup = i))
-  df <- dplyr::bind_rows(df)
+  ## Import data
+  # Loop attainment grades
+  df_att_grades <- lapply(seq(yearGroupFrom, yearGroupTo, 1), function(i) gfs_attainment_grades(academicYear, yearGroup = i))
+  df_att_grades <- dplyr::bind_rows(df_att_grades)
+  df_att_grades <- unique(df_att_grades)
+  # Loop attainment grade types
+  df_att_grade_types <- lapply(seq(yearGroupFrom, yearGroupTo, 1), function(i) gfs_attainment_grade_types(academicYear, yearGroup = i))
+  df_att_grade_types <- dplyr::bind_rows(df_att_grade_types)
+  df_att_grade_types <- unique(df_att_grade_types)
+
+  df_students <- gfs_student_details(academicYear)
+  df_students_details <- gfs_student_edu_details(academicYear)
+  df_subjects <- gfs_teaching_subjects(academicYear)
+  df_teaching_groups <- gfs_teaching_groups(academicYear)
+  df_teaching_groups_students <- gfs_teaching_groups_students(academicYear)
+  df_teaching_groups_teachers <- gfs_teaching_groups_teachers(academicYear)
+  df_teachers <- gfs_teaching_teachers(academicYear)
+
+  message(cat(crayon::silver("Merge datasets")))
+
+  ## Merge
+  df <- dplyr::left_join(df_att_grades, df_att_grade_types, by = c("grades.grade_type_id" = "id"))
+  df <- dplyr::left_join(df, df_subjects, by = c("grades.subject_id" = "id"))
+  df <- dplyr::left_join(df, df_students, by = c("grades.student_id" = "id"))
+  df <- dplyr::left_join(df, df_students_details, by = c("grades.student_id" = "student_id"))
+  df_02 <- dplyr::left_join(df_teaching_groups, df_teaching_groups_students, by = c("id" = "group_id"))
+  df_02 <- dplyr::left_join(df_02, df_subjects, by = c("subject_id" = "id"))
+  df_02 <- dplyr::left_join(df_02, df_teaching_groups_teachers, by = c("id" = "group_id"))
+  df_02 <- dplyr::left_join(df_02, df_teachers, by = c("teacher_ids" = "id"))
+  df_02 <- dplyr::select(df_02, c("Class" = name.x, student_ids, "Subject.Code" = code.y, "Teacher" = initials))
+  df_02 <- unique(df_02)
+  df <- dplyr::left_join(df, df_02, by = c("grades.student_id" = "student_ids", "code" = "Subject.Code"))
+
+  message(cat(crayon::silver("Compute metadata")))
+
+  ## Create
+  df$Surname.Forename.Reg <- paste0(toupper(df$preferred_last_name), " ", df$preferred_first_name, " (", df$registration_group, ")")
+
+  message(cat(crayon::silver("Clean final output")))
+
+  ## Tidy
+  df <- dplyr::select(df, c(Teacher, "Year.Group" = year_group, "Subject" = name.y, Class,
+                            "UPN" = upn, "GFSID" = grades.student_id, Surname.Forename.Reg,
+                            "Surname" = preferred_last_name, "Forename" = preferred_first_name,
+                            "Reg" = registration_group, "Gender" = sex, "Grade.Type" = name.x, "Grade" = grades.name))
   df <- unique(df)
 
   ## Return
