@@ -39,7 +39,8 @@ gfs_clean_exam_results <- function(academicYear, yearGroup, type = NULL) {
   df_students_general_02 <- tidyr::pivot_wider(df_students_general_02, names_from = name, values_from = value)
   df_students_general_02 <- data.frame(df_students_general_02, check.names = TRUE)
   df_students_general_02 <- dplyr::select(df_students_general_02, c(student_id, HML.Band))
-  df_students_general_02 <- unique(df_students_general_02)
+  df_students_general_02 <- dplyr::distinct(df_students_general_02)
+  df_students_general_02$HML.Band <- ifelse(is.na(df_students_general_02$HML.Band), "Unknown.HML", df_students_general_02$HML.Band)
 
   ## Tidy sensitive
   df_students_sensitive_02 <- dplyr::select(df_students_sensitive, c(student_id, name, value))
@@ -48,7 +49,7 @@ gfs_clean_exam_results <- function(academicYear, yearGroup, type = NULL) {
   df_students_sensitive_02 <- tidyr::pivot_wider(df_students_sensitive_02, names_from = name, values_from = value)
   df_students_sensitive_02 <- data.frame(df_students_sensitive_02, check.names = TRUE)
   df_students_sensitive_02 <- dplyr::select(df_students_sensitive_02, c(student_id, "PP" = Pupil.Premium.Indicator))
-  df_students_sensitive_02 <- unique(df_students_sensitive_02)
+  df_students_sensitive_02 <- dplyr::distinct(df_students_sensitive_02)
 
   message(cat(crayon::silver("Merge datasets")))
 
@@ -63,7 +64,7 @@ gfs_clean_exam_results <- function(academicYear, yearGroup, type = NULL) {
   df_02 <- dplyr::left_join(df_02, df_teaching_groups_teachers, by = c("id" = "group_id"))
   df_02 <- dplyr::left_join(df_02, df_teachers, by = c("teacher_ids" = "id"))
   df_02 <- dplyr::select(df_02, c("Class" = name.x, student_ids, "Subject.Code" = code.y, "Teacher" = initials))
-  df_02 <- unique(df_02)
+  df_02 <- dplyr::distinct(df_02)
   df <- dplyr::left_join(df, df_02, by = c("student_id" = "student_ids", "code" = "Subject.Code"))
 
   message(cat(crayon::silver("Compute metadata")))
@@ -79,7 +80,7 @@ gfs_clean_exam_results <- function(academicYear, yearGroup, type = NULL) {
                             "Subject" = name, Class, "UPN" = upn, "GFSID" = student_id, Surname.Forename.Reg,
                             "Surname" = preferred_last_name, "Forename" = preferred_first_name,
                             "Reg" = registration_group, "Gender" = sex, PP, HML.Band, Grade.Type, "Grade" = grade))
-  df <- unique(df)
+  df <- dplyr::distinct(df)
 
   ## Qualification type
   if (is.null(type)) {
@@ -129,7 +130,7 @@ gfs_clean_attainment <- function(academicYear, yearGroup) {
   df_02 <- dplyr::left_join(df_02, df_teaching_groups_teachers, by = c("id" = "group_id"))
   df_02 <- dplyr::left_join(df_02, df_teachers, by = c("teacher_ids" = "id"))
   df_02 <- dplyr::select(df_02, c("Class" = name.x, student_ids, "Subject.Code" = code.y, "Teacher" = initials))
-  df_02 <- unique(df_02)
+  df_02 <- dplyr::distinct(df_02)
   df <- dplyr::left_join(df, df_02, by = c("grades.student_id" = "student_ids", "code" = "Subject.Code"))
 
   ## Tidy
@@ -138,7 +139,7 @@ gfs_clean_attainment <- function(academicYear, yearGroup) {
                             "UPN" = upn, "GFSID" = grades.student_id, Surname.Forename.Reg,
                             "Surname" = preferred_last_name, "Forename" = preferred_first_name,
                             "Reg" = registration_group, "Gender" = sex, "Grade.Type" = name.x, "Grade" = grades.name))
-  df <- unique(df)
+  df <- dplyr::distinct(df)
 
   ## Return
   return(df)
@@ -163,11 +164,11 @@ gfs_clean_attainment_multiple <- function(academicYear, yearGroupFrom = "7", yea
   # Loop attainment grades
   df_att_grades <- lapply(seq(yearGroupFrom, yearGroupTo, 1), function(i) gfs_attainment_grades(academicYear, yearGroup = i))
   df_att_grades <- dplyr::bind_rows(df_att_grades)
-  df_att_grades <- unique(df_att_grades)
+  df_att_grades <- dplyr::distinct(df_att_grades)
   # Loop attainment grade types
   df_att_grade_types <- lapply(seq(yearGroupFrom, yearGroupTo, 1), function(i) gfs_attainment_grade_types(academicYear, yearGroup = i))
   df_att_grade_types <- dplyr::bind_rows(df_att_grade_types)
-  df_att_grade_types <- unique(df_att_grade_types)
+  df_att_grade_types <- dplyr::distinct(df_att_grade_types)
 
   df_students <- gfs_student_details(academicYear)
   df_students_details <- gfs_student_edu_details(academicYear)
@@ -189,7 +190,7 @@ gfs_clean_attainment_multiple <- function(academicYear, yearGroupFrom = "7", yea
   df_02 <- dplyr::left_join(df_02, df_teaching_groups_teachers, by = c("id" = "group_id"))
   df_02 <- dplyr::left_join(df_02, df_teachers, by = c("teacher_ids" = "id"))
   df_02 <- dplyr::select(df_02, c("Class" = name.x, student_ids, "Subject.Code" = code.y, "Teacher" = initials))
-  df_02 <- unique(df_02)
+  df_02 <- dplyr::distinct(df_02)
   df <- dplyr::left_join(df, df_02, by = c("grades.student_id" = "student_ids", "code" = "Subject.Code"))
 
   message(cat(crayon::silver("Compute metadata")))
@@ -204,7 +205,7 @@ gfs_clean_attainment_multiple <- function(academicYear, yearGroupFrom = "7", yea
                             "UPN" = upn, "GFSID" = grades.student_id, Surname.Forename.Reg,
                             "Surname" = preferred_last_name, "Forename" = preferred_first_name,
                             "Reg" = registration_group, "Gender" = sex, "Grade.Type" = name.x, "Grade" = grades.name))
-  df <- unique(df)
+  df <- dplyr::distinct(df)
 
   ## Return
   return(df)

@@ -43,7 +43,7 @@ gfs_clean_attendance_student_session <- function(academicYear, goDate, session =
                             "Year.Group" = national_curriculum_year, "Reg" = registration_group, "Gender" = sex,
                             "Date" = date, "Session" = session, "Session.Mark" = code, "Session.Label" = label,
                             "Session.Late.Minutes" = session_minutes_late, "Session.Notes" = session_notes))
-  df <- unique(df)
+  df <- dplyr::distinct(df)
 
   if (is.null(session)) {
     message(cat(crayon::silver("No session preference provided.  Returning AM and PM.")))
@@ -107,7 +107,7 @@ gfs_clean_attendance_student_lesson <- function(academicYear, goDate) {
                             "Date" = date, "Subject" = subject_code, "Class" = group_code, "Lesson.Mark" = code.x,
                             "Lesson.Label" = label,
                             "Lesson.Late.Minutes" = lesson_minutes_late, "Lesson.Notes" = lesson_notes))
-  df <- unique(df)
+  df <- dplyr::distinct(df)
   df <- dplyr::arrange(df, Lesson)
 
   ## Return
@@ -153,7 +153,7 @@ gfs_clean_attendance_student_summary <- function(academicYear) {
                             "Possible.Session" = possible_sessions, "Present" = present, "Approved.EA" = approved_educational_activity,
                             "Late" = late, "Authorised.Absence" = authorised_absence, "Unauthorised.Absence" = unauthorised_absence,
                             "Attendance.No.Required" = attendance_not_required, "Missing.Mark" = missing_mark))
-  df <- unique(df)
+  df <- dplyr::distinct(df)
 
   ## Return
   return(df)
@@ -210,7 +210,7 @@ gfs_clean_attendance_student_session_range <- function(academicYear, goDateStart
                             "Year.Group" = national_curriculum_year, "Reg" = registration_group, "Gender" = sex,
                             "Date" = date, "Session" = session, "Session.Mark" = code, "Session.Label" = label,
                             "Session.Late.Minutes" = session_minutes_late, "Session.Notes" = session_notes))
-  df <- unique(df)
+  df <- dplyr::distinct(df)
 
   if (is.null(session)) {
     message(cat(crayon::silver("No session preference provided.  Returning AM and PM.")))
@@ -282,7 +282,7 @@ gfs_clean_attendance_student_lesson_range <- function(academicYear, goDateStart,
                             "Date" = date, "Subject" = subject_code, "Class" = group_code, "Lesson.Mark" = code.x,
                             "Lesson.Label" = label,
                             "Lesson.Late.Minutes" = lesson_minutes_late, "Lesson.Notes" = lesson_notes))
-  df <- unique(df)
+  df <- dplyr::distinct(df)
   df <- dplyr::arrange(df, Date, Lesson, Lesson.ID)
 
   ## Return

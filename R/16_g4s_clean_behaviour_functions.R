@@ -39,7 +39,7 @@ gfs_clean_behaviour_events_range <- function(academicYear, goDateStart, goDateEn
   df_02 <- dplyr::left_join(df_02, df_subjects, by = c("subject_id" = "id"))
   df_02 <- dplyr::left_join(df_02, df_students, by = c("student_ids" = "id"))
   df_02 <- dplyr::select(df_02, c("Class" = name.x, "subject_code" = code.y, student_ids))
-  df_02 <- unique(df_02)
+  df_02 <- dplyr::distinct(df_02)
   df <- dplyr::left_join(df, df_02, by = c("subject_code", "student_ids"))
   df_cal <- dplyr::select(df_cal, c("Date" = date, "School.Week" = week, "Day.Type" = day_type_code))
   df <- dplyr::left_join(df, df_cal, by = c("event_date" = "Date"))
@@ -61,7 +61,7 @@ gfs_clean_behaviour_events_range <- function(academicYear, goDateStart, goDateEn
                             "Event.Code" = code, "Event.Name" = name.x, "Event.Classification" = name.y,
                             "Polarity" = significance, "Score" = score, "School.Notes" = school_notes))
   df <- dplyr::mutate_all(df, .funs = as.character)
-  df <- unique(df)
+  df <- dplyr::distinct(df)
   df$Email.Staff <- tolower(df$Email.Staff)
 
   message(cat(crayon::silver("Lookup student demographic data")))

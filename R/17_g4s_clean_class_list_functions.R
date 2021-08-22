@@ -30,11 +30,11 @@ gfs_clean_class_list_teacher <- function(academicYear, staffCode = NULL, yearGro
   # Loop attainment grades
   df_att_grades <- lapply(seq(yearGroupFrom, yearGroupTo, 1), function(i) gfs_attainment_grades(academicYear, yearGroup = i))
   df_att_grades <- dplyr::bind_rows(df_att_grades)
-  df_att_grades <- unique(df_att_grades)
+  df_att_grades <- dplyr::distinct(df_att_grades)
   # Loop attainment grade types
   df_att_grade_types <- lapply(seq(yearGroupFrom, yearGroupTo, 1), function(i) gfs_attainment_grade_types(academicYear, yearGroup = i))
   df_att_grade_types <- dplyr::bind_rows(df_att_grade_types)
-  df_att_grade_types <- unique(df_att_grade_types)
+  df_att_grade_types <- dplyr::distinct(df_att_grade_types)
 
   message(cat(crayon::silver("Tidy datasets")))
 
@@ -48,7 +48,7 @@ gfs_clean_class_list_teacher <- function(academicYear, staffCode = NULL, yearGro
   df_students_general_02 <- dplyr::select(df_students_general_02,
                                           c(student_id, UCI, HML.Band, "SEN" = X3...SEN.Code,
                                             "SEN.Notes" = X4..SEN.Notes, "Keyworker" = X5..Keyworker.Name, CP.CAF, Young.Carer))
-  df_students_general_02 <- unique(df_students_general_02)
+  df_students_general_02 <- dplyr::distinct(df_students_general_02)
 
   ## Tidy sensitive
   df_students_sensitive_02 <- dplyr::select(df_students_sensitive, c(student_id, name, value))
@@ -64,7 +64,7 @@ gfs_clean_class_list_teacher <- function(academicYear, staffCode = NULL, yearGro
   df_att <- dplyr::left_join(df_att, df_students, by = c("grades.student_id" = "id"))
   df_att <- dplyr::left_join(df_att, df_students_details, by = c("grades.student_id" = "student_id"))
   df_att <- dplyr::select(df_att, c("GFSID" = grades.student_id, "Subject" = name.y, "Target" = grades.name))
-  df_att <- unique(df_att)
+  df_att <- dplyr::distinct(df_att)
 
   message(cat(crayon::silver("Merge datasets")))
 
@@ -103,7 +103,7 @@ gfs_clean_class_list_teacher <- function(academicYear, staffCode = NULL, yearGro
                               "Gender" = sex, LAC, Ethnicity, EAL, FSM, PP, WBr.PP, HML.Band,
                               SEN, SEN.Notes, Keyworker, CP.CAF, Young.Carer))
   }
-  df <- unique(df)
+  df <- dplyr::distinct(df)
 
   ## Return
   return(df)
@@ -146,7 +146,8 @@ gfs_clean_class_list_student <- function(academicYear, student) {
   df_students_general_02 <- dplyr::select(df_students_general_02,
                                           c(student_id, UCI, HML.Band, "SEN" = X3...SEN.Code,
                                             "SEN.Notes" = X4..SEN.Notes, "Keyworker" = X5..Keyworker.Name, CP.CAF, Young.Carer))
-  df_students_general_02 <- unique(df_students_general_02)
+  df_students_general_02 <- dplyr::distinct(df_students_general_02)
+  df_students_general_02$HML.Band <- ifelse(is.na(df_students_general_02$HML.Band), "Unknown.HML", df_students_general_02$HML.Band)
 
   ## Tidy sensitive
   df_students_sensitive_02 <- dplyr::select(df_students_sensitive, c(student_id, name, value))
@@ -183,5 +184,5 @@ gfs_clean_class_list_student <- function(academicYear, student) {
                             "Teacher" = initials))
 
   df <- dplyr::filter(df, grepl(pattern = student, x = df$Surname.Forename, ignore.case = TRUE))
-  df <- unique(df)
+  df <- dplyr::distinct(df)
 }

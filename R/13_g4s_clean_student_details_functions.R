@@ -31,7 +31,8 @@ gfs_clean_student_details_general <- function(academicYear) {
                                           c(student_id, "Ad.No" = Admission.number, UCI, HML.Band, "SEN" = X3...SEN.Code,
                                             "SEN.Notes" = X4..SEN.Notes, "Keyworker" = X5..Keyworker.Name, CP.CAF, Young.Carer,
                                             "Date.Admission" = Admission.date, "Date.Leaving" = Leaving.date))
-  df_students_general_02 <- unique(df_students_general_02)
+  df_students_general_02 <- dplyr::distinct(df_students_general_02)
+  df_students_general_02$HML.Band <- ifelse(is.na(df_students_general_02$HML.Band), "Unknown.HML", df_students_general_02$HML.Band)
 
   ## Tidy sensitive
   df_students_sensitive_02 <- dplyr::select(df_students_sensitive, c(student_id, name, value))
@@ -39,7 +40,7 @@ gfs_clean_student_details_general <- function(academicYear) {
   df_students_sensitive_02 <- data.frame(df_students_sensitive_02, check.names = TRUE)
   df_students_sensitive_02 <- dplyr::select(df_students_sensitive_02, c(student_id, "LAC" = Looked.after, Ethnicity, EAL, FSM,
                                                                         "PP" = Pupil.Premium.Indicator))
-  df_students_sensitive_02 <- unique(df_students_sensitive_02)
+  df_students_sensitive_02 <- dplyr::distinct(df_students_sensitive_02)
 
   ## Tidy details
   df_students_details_02 <- dplyr::select(df_students_details, c(student_id, upn, national_curriculum_year, registration_group))
@@ -67,7 +68,7 @@ gfs_clean_student_details_general <- function(academicYear) {
   df <- dplyr::mutate_all(df, .funs = as.character)
   df <- dplyr::mutate_at(df, .vars = c("Date.Admission", "Date.Leaving"), .funs = lubridate::mdy_hms)
   df$Stay <- lubridate::as.duration(df$Date.Leaving - df$Date.Admission)
-  df <- unique(df)
+  df <- dplyr::distinct(df)
 
   ## Return
   return(df)
