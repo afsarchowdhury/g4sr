@@ -32,7 +32,6 @@ gfs_clean_student_details_general <- function(academicYear) {
                                             "SEN.Notes" = X4..SEN.Notes, "Keyworker" = X5..Keyworker.Name, CP.CAF, Young.Carer,
                                             "Date.Admission" = Admission.date, "Date.Leaving" = Leaving.date))
   df_students_general_02 <- dplyr::distinct(df_students_general_02)
-  df_students_general_02$HML.Band <- ifelse(is.na(df_students_general_02$HML.Band), "Unknown.HML", df_students_general_02$HML.Band)
 
   ## Tidy sensitive
   df_students_sensitive_02 <- dplyr::select(df_students_sensitive, c(student_id, name, value))
@@ -69,6 +68,7 @@ gfs_clean_student_details_general <- function(academicYear) {
   df <- dplyr::mutate_at(df, .vars = c("Date.Admission", "Date.Leaving"), .funs = lubridate::mdy_hms)
   df$Stay <- lubridate::as.duration(df$Date.Leaving - df$Date.Admission)
   df <- dplyr::distinct(df)
+  df$HML.Band <- ifelse(is.na(df$HML.Band), "Unknown.HML", df$HML.Band)
 
   ## Return
   return(df)

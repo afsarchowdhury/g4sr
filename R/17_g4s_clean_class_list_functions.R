@@ -88,22 +88,22 @@ gfs_clean_class_list_teacher <- function(academicYear, staffCode = NULL, yearGro
   message(cat(crayon::silver("Clean final output")))
 
   ## Clean and filter
+  df <- dplyr::select(df, c("Staff.Code" = code.y, "Year.Group" = year_group, "Reg" = registration_group, "Subject" = name.y,
+                            "Class" = name.x, "UPN" = upn, "GFSID" = student_ids, UCI, Surname.Forename.Reg,
+                            "Surname" = preferred_last_name.x, "Forename" = preferred_first_name.x,
+                            "Gender" = sex, LAC, Ethnicity, EAL, FSM, PP, WBr.PP, HML.Band, Target,
+                            SEN, SEN.Notes, Keyworker, CP.CAF, Young.Carer))
+
   if (is.null(staffCode)) {
     message(cat(crayon::silver("No staffCode provided.  Return all.")))
-    df <- dplyr::select(df, c("Teacher" = initials, "Year.Group" = year_group, "Reg" = registration_group, "Subject" = name.y,
-                              "Class" = name.x, "UPN" = upn, "GFSID" = student_ids, UCI, Surname.Forename.Reg,
-                              "Surname" = preferred_last_name.x, "Forename" = preferred_first_name.x,
-                              "Gender" = sex, LAC, Ethnicity, EAL, FSM, PP, WBr.PP, HML.Band, Target,
-                              SEN, SEN.Notes, Keyworker, CP.CAF, Young.Carer))
+    df <- df
   } else {
-    df <- dplyr::filter(df, initials %in% staffCode)
-    df <- dplyr::select(df, c("Teacher" = initials, "Year.Group" = year_group, "Reg" = registration_group, "Subject" = name.y,
-                              "Class" = name.x, "UPN" = upn, "GFSID" = student_ids, UCI, Surname.Forename.Reg,
-                              "Surname" = preferred_last_name.x, "Forename" = preferred_first_name.x, Target,
-                              "Gender" = sex, LAC, Ethnicity, EAL, FSM, PP, WBr.PP, HML.Band,
-                              SEN, SEN.Notes, Keyworker, CP.CAF, Young.Carer))
+    message(cat(crayon::silver("Returning class list for", staffCode)))
+    df <- dplyr::filter(df, Staff.Code %in% staffCode)
   }
+
   df <- dplyr::distinct(df)
+  df$HML.Band <- ifelse(is.na(df$HML.Band), "Unknown.HML", df$HML.Band)
 
   ## Return
   return(df)
@@ -181,8 +181,12 @@ gfs_clean_class_list_student <- function(academicYear, student) {
                             "Forename" = preferred_first_name.x, "Gender" = sex,
                             LAC, Ethnicity, EAL, FSM, PP, WBr.PP, HML.Band, SEN, SEN.Notes, Keyworker, CP.CAF, Young.Carer,
                             "Year.Group" = year_group, "Reg" = registration_group, "Subject" = name.y, "Class" = name.x,
-                            "Teacher" = initials))
+                            "Staff.Code" = code.y))
 
   df <- dplyr::filter(df, grepl(pattern = student, x = df$Surname.Forename, ignore.case = TRUE))
   df <- dplyr::distinct(df)
+  df$HML.Band <- ifelse(is.na(df$HML.Band), "Unknown.HML", df$HML.Band)
+
+  ## Return
+  return(df)
 }

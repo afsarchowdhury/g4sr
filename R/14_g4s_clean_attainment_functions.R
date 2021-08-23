@@ -40,7 +40,6 @@ gfs_clean_exam_results <- function(academicYear, yearGroup, type = NULL) {
   df_students_general_02 <- data.frame(df_students_general_02, check.names = TRUE)
   df_students_general_02 <- dplyr::select(df_students_general_02, c(student_id, HML.Band))
   df_students_general_02 <- dplyr::distinct(df_students_general_02)
-  df_students_general_02$HML.Band <- ifelse(is.na(df_students_general_02$HML.Band), "Unknown.HML", df_students_general_02$HML.Band)
 
   ## Tidy sensitive
   df_students_sensitive_02 <- dplyr::select(df_students_sensitive, c(student_id, name, value))
@@ -63,7 +62,7 @@ gfs_clean_exam_results <- function(academicYear, yearGroup, type = NULL) {
   df_02 <- dplyr::left_join(df_02, df_subjects, by = c("subject_id" = "id"))
   df_02 <- dplyr::left_join(df_02, df_teaching_groups_teachers, by = c("id" = "group_id"))
   df_02 <- dplyr::left_join(df_02, df_teachers, by = c("teacher_ids" = "id"))
-  df_02 <- dplyr::select(df_02, c("Class" = name.x, student_ids, "Subject.Code" = code.y, "Teacher" = initials))
+  df_02 <- dplyr::select(df_02, c("Class" = name.x, student_ids, "Subject.Code" = code.y, "Staff.Code" = code))
   df_02 <- dplyr::distinct(df_02)
   df <- dplyr::left_join(df, df_02, by = c("student_id" = "student_ids", "code" = "Subject.Code"))
 
@@ -76,11 +75,12 @@ gfs_clean_exam_results <- function(academicYear, yearGroup, type = NULL) {
   message(cat(crayon::silver("Clean final output")))
 
   ## Tidy
-  df <- dplyr::select(df, c(Teacher, "Year.Group" = year_group, "Qualification.Title" = qualification_title.x,
+  df <- dplyr::select(df, c(Staff.Code, "Year.Group" = year_group, "Qualification.Title" = qualification_title.x,
                             "Subject" = name, Class, "UPN" = upn, "GFSID" = student_id, Surname.Forename.Reg,
                             "Surname" = preferred_last_name, "Forename" = preferred_first_name,
                             "Reg" = registration_group, "Gender" = sex, PP, HML.Band, Grade.Type, "Grade" = grade))
   df <- dplyr::distinct(df)
+  df$HML.Band <- ifelse(is.na(df$HML.Band), "Unknown.HML", df$HML.Band)
 
   ## Qualification type
   if (is.null(type)) {
@@ -129,13 +129,13 @@ gfs_clean_attainment <- function(academicYear, yearGroup) {
   df_02 <- dplyr::left_join(df_02, df_teaching_subjects, by = c("subject_id" = "id"))
   df_02 <- dplyr::left_join(df_02, df_teaching_groups_teachers, by = c("id" = "group_id"))
   df_02 <- dplyr::left_join(df_02, df_teachers, by = c("teacher_ids" = "id"))
-  df_02 <- dplyr::select(df_02, c("Class" = name.x, student_ids, "Subject.Code" = code.y, "Teacher" = initials))
+  df_02 <- dplyr::select(df_02, c("Class" = name.x, student_ids, "Subject.Code" = code.y, "Staff.Code" = code))
   df_02 <- dplyr::distinct(df_02)
   df <- dplyr::left_join(df, df_02, by = c("grades.student_id" = "student_ids", "code" = "Subject.Code"))
 
   ## Tidy
   df$Surname.Forename.Reg <- paste0(toupper(df$preferred_last_name), " ", df$preferred_first_name, " (", df$registration_group, ")")
-  df <- dplyr::select(df, c(Teacher, "Year.Group" = year_group, "Subject" = name.y, Class,
+  df <- dplyr::select(df, c(Staff.Code, "Year.Group" = year_group, "Subject" = name.y, Class,
                             "UPN" = upn, "GFSID" = grades.student_id, Surname.Forename.Reg,
                             "Surname" = preferred_last_name, "Forename" = preferred_first_name,
                             "Reg" = registration_group, "Gender" = sex, "Grade.Type" = name.x, "Grade" = grades.name))
@@ -189,7 +189,7 @@ gfs_clean_attainment_multiple <- function(academicYear, yearGroupFrom = "7", yea
   df_02 <- dplyr::left_join(df_02, df_teaching_subjects, by = c("subject_id" = "id"))
   df_02 <- dplyr::left_join(df_02, df_teaching_groups_teachers, by = c("id" = "group_id"))
   df_02 <- dplyr::left_join(df_02, df_teachers, by = c("teacher_ids" = "id"))
-  df_02 <- dplyr::select(df_02, c("Class" = name.x, student_ids, "Subject.Code" = code.y, "Teacher" = initials))
+  df_02 <- dplyr::select(df_02, c("Class" = name.x, student_ids, "Subject.Code" = code.y, "Staff.Code" = code))
   df_02 <- dplyr::distinct(df_02)
   df <- dplyr::left_join(df, df_02, by = c("grades.student_id" = "student_ids", "code" = "Subject.Code"))
 
@@ -201,7 +201,7 @@ gfs_clean_attainment_multiple <- function(academicYear, yearGroupFrom = "7", yea
   message(cat(crayon::silver("Clean final output")))
 
   ## Tidy
-  df <- dplyr::select(df, c(Teacher, "Year.Group" = year_group, "Subject" = name.y, Class,
+  df <- dplyr::select(df, c(Staff.Code, "Year.Group" = year_group, "Subject" = name.y, Class,
                             "UPN" = upn, "GFSID" = grades.student_id, Surname.Forename.Reg,
                             "Surname" = preferred_last_name, "Forename" = preferred_first_name,
                             "Reg" = registration_group, "Gender" = sex, "Grade.Type" = name.x, "Grade" = grades.name))
