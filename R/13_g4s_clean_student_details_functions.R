@@ -23,14 +23,14 @@ gfs_clean_student_details_general <- function(academicYear) {
   ## Tidy general
   df_students_general_02 <- dplyr::select(df_students_general, c(student_id, name, value))
   df_students_general_02 <- dplyr::filter(df_students_general_02,
-                                          grepl(pattern = "admission|leaving|uci|hml|sen|key|caf|young|permission",
+                                          grepl(pattern = "admission|uci|hml|sen|key|caf|permission",
                                                 x = name, ignore.case = TRUE))
   df_students_general_02 <- tidyr::pivot_wider(df_students_general_02, names_from = name, values_from = value)
   df_students_general_02 <- data.frame(df_students_general_02, check.names = TRUE)
   df_students_general_02 <- dplyr::select(df_students_general_02,
                                           c(student_id, "Ad.No" = Admission.number, UCI, HML.Band, "SEN" = X3...SEN.Code,
-                                            "SEN.Notes" = X4..SEN.Notes, "Keyworker" = X5..Keyworker.Name, CP.CAF, Young.Carer,
-                                            "Date.Admission" = Admission.date, "Date.Leaving" = Leaving.date))
+                                            "SEN.Notes" = X4..SEN.Notes, "Keyworker" = X5..Keyworker.Name, CP.CAF,
+                                            "Date.Admission" = Admission.date))
   df_students_general_02 <- dplyr::distinct(df_students_general_02)
 
   ## Tidy sensitive
@@ -63,10 +63,10 @@ gfs_clean_student_details_general <- function(academicYear) {
   df <- dplyr::select(df, c("Year.Group" = national_curriculum_year, "UPN" = upn, "GFSID" = id, Surname.Forename.Reg,
                             "Surname" = preferred_last_name, "Forename" = preferred_first_name, "Gender" = sex,
                             Ethnicity, EAL, FSM, PP, WBr.PP, HML.Band, Ad.No, UCI, SEN, SEN.Notes, Keyworker, LAC, CP.CAF,
-                            Young.Carer, Date.Admission, Date.Leaving))
+                            Date.Admission))
   df <- dplyr::mutate_all(df, .funs = as.character)
-  df <- dplyr::mutate_at(df, .vars = c("Date.Admission", "Date.Leaving"), .funs = lubridate::mdy_hms)
-  df$Stay <- lubridate::as.duration(df$Date.Leaving - df$Date.Admission)
+  # df <- dplyr::mutate_at(df, .vars = c("Date.Admission", "Date.Leaving"), .funs = lubridate::mdy_hms)
+  # df$Stay <- lubridate::as.duration(df$Date.Leaving - df$Date.Admission)
   df <- dplyr::distinct(df)
   df$HML.Band <- ifelse(is.na(df$HML.Band), "Unknown.HML", df$HML.Band)
 
@@ -96,7 +96,7 @@ gfs_clean_student_send_search <- function(academicYear, notesSearch) {
 
   ## Clean and filter
   df <- dplyr::select(df, c(Year.Group, UPN, GFSID, Surname.Forename.Reg, Gender, EAL, PP, WBr.PP, HML.Band, UCI,
-                            SEN, SEN.Notes, Keyworker, LAC, CP.CAF, Young.Carer))
+                            SEN, SEN.Notes, Keyworker, LAC, CP.CAF))
   df <- dplyr::arrange(df, as.numeric(Year.Group))
 
   ## Return

@@ -41,13 +41,13 @@ gfs_clean_class_list_teacher <- function(academicYear, staffCode = NULL, yearGro
   ## Tidy general
   df_students_general_02 <- dplyr::select(df_students_general, c(student_id, name, value))
   df_students_general_02 <- dplyr::filter(df_students_general_02,
-                                          grepl(pattern = "uci|hml|sen|key|caf|young",
+                                          grepl(pattern = "uci|hml|sen|key|caf",
                                                 x = name, ignore.case = TRUE))
   df_students_general_02 <- tidyr::pivot_wider(df_students_general_02, names_from = name, values_from = value)
   df_students_general_02 <- data.frame(df_students_general_02, check.names = TRUE)
   df_students_general_02 <- dplyr::select(df_students_general_02,
                                           c(student_id, UCI, HML.Band, "SEN" = X3...SEN.Code,
-                                            "SEN.Notes" = X4..SEN.Notes, "Keyworker" = X5..Keyworker.Name, CP.CAF, Young.Carer))
+                                            "SEN.Notes" = X4..SEN.Notes, "Keyworker" = X5..Keyworker.Name, CP.CAF))
   df_students_general_02 <- dplyr::distinct(df_students_general_02)
 
   ## Tidy sensitive
@@ -92,7 +92,7 @@ gfs_clean_class_list_teacher <- function(academicYear, staffCode = NULL, yearGro
                             "Class" = name.x, "UPN" = upn, "GFSID" = student_ids, UCI, Surname.Forename.Reg,
                             "Surname" = preferred_last_name.x, "Forename" = preferred_first_name.x,
                             "Gender" = sex, LAC, Ethnicity, EAL, FSM, PP, WBr.PP, HML.Band, Target,
-                            SEN, SEN.Notes, Keyworker, CP.CAF, Young.Carer))
+                            SEN, SEN.Notes, Keyworker, CP.CAF))
 
   if (is.null(staffCode)) {
     message(cat(crayon::silver("No staffCode provided.  Return all.")))
@@ -139,13 +139,13 @@ gfs_clean_class_list_student <- function(academicYear, student) {
   ## Tidy general
   df_students_general_02 <- dplyr::select(df_students_general, c(student_id, name, value))
   df_students_general_02 <- dplyr::filter(df_students_general_02,
-                                          grepl(pattern = "uci|hml|sen|key|caf|young",
+                                          grepl(pattern = "uci|hml|sen|key|caf",
                                                 x = name, ignore.case = TRUE))
   df_students_general_02 <- tidyr::pivot_wider(df_students_general_02, names_from = name, values_from = value)
   df_students_general_02 <- data.frame(df_students_general_02, check.names = TRUE)
   df_students_general_02 <- dplyr::select(df_students_general_02,
                                           c(student_id, UCI, HML.Band, "SEN" = X3...SEN.Code,
-                                            "SEN.Notes" = X4..SEN.Notes, "Keyworker" = X5..Keyworker.Name, CP.CAF, Young.Carer))
+                                            "SEN.Notes" = X4..SEN.Notes, "Keyworker" = X5..Keyworker.Name, CP.CAF))
   df_students_general_02 <- dplyr::distinct(df_students_general_02)
   df_students_general_02$HML.Band <- ifelse(is.na(df_students_general_02$HML.Band), "Unknown.HML", df_students_general_02$HML.Band)
 
@@ -179,7 +179,7 @@ gfs_clean_class_list_student <- function(academicYear, student) {
   ## Clean
   df <- dplyr::select(df, c("UPN" = upn, "GFSID" = student_ids, UCI, Surname.Forename.Reg, "Surname" = preferred_last_name.x,
                             "Forename" = preferred_first_name.x, "Gender" = sex,
-                            LAC, Ethnicity, EAL, FSM, PP, WBr.PP, HML.Band, SEN, SEN.Notes, Keyworker, CP.CAF, Young.Carer,
+                            LAC, Ethnicity, EAL, FSM, PP, WBr.PP, HML.Band, SEN, SEN.Notes, Keyworker, CP.CAF,
                             "Year.Group" = year_group, "Reg" = registration_group, "Subject" = name.y, "Class" = name.x,
                             "Staff.Code" = code.y))
 
