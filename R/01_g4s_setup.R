@@ -116,7 +116,12 @@ message_cursor <- paste0("Cursor at student ID:")
     .response <<- jsonlite::fromJSON(.response, flatten = TRUE)
     temp02 <- as.data.frame(.response[[1]])
     temp02 <- tidyr::unnest(temp02, cols = c(ncol(temp02)), names_repair = "universal")
-    temp01 <- dplyr::add_row(temp01, temp02)
+
+    if (nrow(temp02) == 0) {
+      temp01 <- temp01
+    } else {
+      temp01 <- dplyr::add_row(temp01, temp02)
+    }
   }
   return(temp01)
 }
