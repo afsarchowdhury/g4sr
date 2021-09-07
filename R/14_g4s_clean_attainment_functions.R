@@ -80,6 +80,10 @@ gfs_clean_exam_results <- function(academicYear, yearGroup, type = NULL) {
                             "Surname" = preferred_last_name, "Forename" = preferred_first_name,
                             "Reg" = registration_group, "Gender" = sex, PP, HML.Band, Grade.Type, "Grade" = grade))
   df <- dplyr::distinct(df)
+
+  message(cat(crayon::silver("Impute missing data")))
+
+  ## Impute missing data
   df$HML.Band <- ifelse(is.na(df$HML.Band), "Unknown.HML", df$HML.Band)
 
   ## Qualification type

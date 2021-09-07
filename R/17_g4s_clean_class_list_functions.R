@@ -103,7 +103,13 @@ gfs_clean_class_list_teacher <- function(academicYear, staffCode = NULL, yearGro
   }
 
   df <- dplyr::distinct(df)
+
+  message(cat(crayon::silver("Impute missing data")))
+
+  ## Impute missing data
   df$HML.Band <- ifelse(is.na(df$HML.Band), "Unknown.HML", df$HML.Band)
+  df$Ethnicity <- ifelse(is.na(df$Ethnicity), "Unknown.Ethnicity", df$Ethnicity)
+  df$EAL <- ifelse(is.na(df$EAL), "False", df$EAL)
 
   ## Return
   return(df)
@@ -147,7 +153,6 @@ gfs_clean_class_list_student <- function(academicYear, student) {
                                           c(student_id, UCI, HML.Band, "SEN" = X3...SEN.Code,
                                             "SEN.Notes" = X4..SEN.Notes, "Keyworker" = X5..Keyworker.Name, CP.CAF))
   df_students_general_02 <- dplyr::distinct(df_students_general_02)
-  df_students_general_02$HML.Band <- ifelse(is.na(df_students_general_02$HML.Band), "Unknown.HML", df_students_general_02$HML.Band)
 
   ## Tidy sensitive
   df_students_sensitive_02 <- dplyr::select(df_students_sensitive, c(student_id, name, value))
@@ -185,7 +190,13 @@ gfs_clean_class_list_student <- function(academicYear, student) {
 
   df <- dplyr::filter(df, grepl(pattern = student, x = df$Surname.Forename, ignore.case = TRUE))
   df <- dplyr::distinct(df)
+
+  message(cat(crayon::silver("Impute missing data")))
+
+  ## Impute missing data
   df$HML.Band <- ifelse(is.na(df$HML.Band), "Unknown.HML", df$HML.Band)
+  df$Ethnicity <- ifelse(is.na(df$Ethnicity), "Unknown.Ethnicity", df$Ethnicity)
+  df$EAL <- ifelse(is.na(df$EAL), "False", df$EAL)
 
   ## Return
   return(df)
