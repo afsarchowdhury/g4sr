@@ -1,0 +1,14 @@
+citHeader("To cite g4sr in publications use:")
+
+citEntry(
+  entry    = "manual",
+  title    = "g4sr",
+  author   = "Afsar Chowdhury",
+  year     = "2020",
+  url      = "https://github.com/afsarchowdhury/g4sr",
+  textVersion = paste("Chowdhury, A. (2020).",
+        "g4sr: Go4Schools API Wrapper.",
+        "version 0.6.2. Hyde High School. Tameside, Greater Manchester.",
+        "https://github.com/afsarchowdhury/g4sr"
+  )
+)
