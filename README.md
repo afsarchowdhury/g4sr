@@ -21,7 +21,7 @@ I am in no way affiliated with
 who happens to use [R](https://www.r-project.org/).
 
 There are some API calls that are yet to be included. The only reason
-for thier absence is that I have not needed to use them yet.
+for their absence is that I have not needed to use them yet.
 
 ## Installation
 
@@ -85,14 +85,12 @@ can do the following:
 
 ``` r
 library(g4sr)
-#> Welcome to g4sr.
-#> 
-#> This package is released under GPLv3.
-#> 
-#> Log issues at https://github.com/afsarchowdhury/g4sr/issues.
-#> 
 #> You will need a valid API key to access the functions in this pacakge.
 #> Ask your school administrator to generate one for you.
+#> Log errors and bugs at https://github.com/afsarchowdhury/g4sr/issues.
+#> Type citation('g4sr') to cite g4sr in a publication.
+#> 
+#> 
 gfs_setup(api_key = Sys.getenv("G4SR_KEY"))
 ```
 
@@ -139,21 +137,41 @@ To return the school calendar for the academic year 2020:
 
 ``` r
 my_cal <- gfs_calendar(academicYear = 2020)
-#> Request calendar
+#> Request calendar for 2020
 #> 
 #> Status code: 200
 #> 
 head(my_cal)
 #>   timetable_id week                 date day_type_code
-#> 1        10202    1 2019-09-03T00:00:00Z          OPEN
-#> 2           NA   NA 2019-09-02T00:00:00Z      TRAINING
-#> 3           NA   NA 2019-09-08T00:00:00Z        CLOSED
-#> 4        10202    1 2019-09-04T00:00:00Z          OPEN
-#> 5           NA   NA 2019-09-07T00:00:00Z        CLOSED
-#> 6        10202    2 2019-09-12T00:00:00Z          OPEN
+#> 1           NA   NA 2019-09-02T00:00:00Z      TRAINING
+#> 2        10202    1 2019-09-03T00:00:00Z          OPEN
+#> 3        10202    1 2019-09-04T00:00:00Z          OPEN
+#> 4        10202    1 2019-09-05T00:00:00Z          OPEN
+#> 5        10202    1 2019-09-06T00:00:00Z          OPEN
+#> 6           NA   NA 2019-09-07T00:00:00Z        CLOSED
 ```
 
 ## License
 
 `g4sr` is released on a [GPLv3
 license](https://www.gnu.org/licenses/gpl-3.0.en.html).
+
+## Citation
+
+``` r
+citation("g4sr")
+#> To cite g4sr in publications use:
+#> 
+#>   Chowdhury, A. (2020). g4sr: Go4Schools API Wrapper. version 0.6.2.
+#>   Hyde High School. Tameside, Greater Manchester.
+#>   https://github.com/afsarchowdhury/g4sr
+#> 
+#> A BibTeX entry for LaTeX users is
+#> 
+#>   @Manual{,
+#>     title = {g4sr},
+#>     author = {Afsar Chowdhury},
+#>     year = {2020},
+#>     url = {https://github.com/afsarchowdhury/g4sr},
+#>   }
+```

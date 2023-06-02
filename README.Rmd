@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 
 I am in no way affiliated with [Go4Schools](https://www.go4schools.com/).  I am an end user of their [API](https://www.go4schools.com/Documentation/V1/APIDocumentation.html) who happens to use [R](https://www.r-project.org/).
 
-There are some API calls that are yet to be included.  The only reason for thier absence is that I have not needed to use them yet.
+There are some API calls that are yet to be included.  The only reason for their absence is that I have not needed to use them yet.
 
 ## Installation
 
@@ -124,3 +124,9 @@ head(my_cal)
 ## License
 
 `g4sr` is released on a [GPLv3 license](https://www.gnu.org/licenses/gpl-3.0.en.html).
+
+## Citation
+
+```{r citation, eval=TRUE}
+citation("g4sr")
+```
