@@ -25,7 +25,9 @@ gfs_teaching_departments <- function(academicYear) {
   response <- httr::content(.result, as = "text", encoding = "UTF-8")
 
   ## Parse the JSON content and and convert it to a data frame
-  return(jsonlite::fromJSON(response, flatten = TRUE))
+  temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
+  temp01 <- dplyr::mutate(temp01, dplyr::across(dplyr::everything(), as.character))
+  return(temp01)
 }
 
 ## Teaching subjects
@@ -54,7 +56,9 @@ gfs_teaching_subjects <- function(academicYear) {
   response <- httr::content(.result, as = "text", encoding = "UTF-8")
 
   ## Parse the JSON content and and convert it to a data frame
-  return(jsonlite::fromJSON(response, flatten = TRUE))
+  temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
+  temp01 <- dplyr::mutate(temp01, dplyr::across(dplyr::everything(), as.character))
+  return(temp01)
 }
 
 ## Teaching teachers
@@ -82,7 +86,9 @@ gfs_teaching_teachers <- function(academicYear) {
   response <- httr::content(.result, as = "text", encoding = "UTF-8")
 
   ## Parse the JSON content and and convert it to a data frame
-  return(jsonlite::fromJSON(response, flatten = TRUE))
+  temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
+  temp01 <- dplyr::mutate(temp01, dplyr::across(dplyr::everything(), as.character))
+  return(temp01)
 }
 
 ## Teaching groups
@@ -112,7 +118,9 @@ gfs_teaching_groups <- function(academicYear) {
   response <- httr::content(.result, as = "text", encoding = "UTF-8")
 
   ## Parse the JSON content and and convert it to a data frame
-  return(jsonlite::fromJSON(response, flatten = TRUE))
+  temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
+  temp01 <- dplyr::mutate(temp01, dplyr::across(dplyr::everything(), as.character))
+  return(temp01)
 }
 
 ## Teaching groups and students
@@ -144,7 +152,9 @@ gfs_teaching_groups_students <- function(academicYear) {
 
   ## Parse the JSON content and and convert it to a data frame
   temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
-  return(tidyr::unnest(temp01, cols = c(ncol(temp01)), names_repair = "universal"))
+  temp01 <- tidyr::unnest(temp01, cols = c(ncol(temp01)), names_repair = "universal")
+  temp01 <- dplyr::mutate(temp01, dplyr::across(dplyr::everything(), as.character))
+  return(temp01)
 }
 
 ## Teaching groups and teachers
@@ -176,5 +186,7 @@ gfs_teaching_groups_teachers <- function(academicYear) {
 
   ## Parse the JSON content and and convert it to a data frame
   temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
-  return(tidyr::unnest(temp01, cols = c(ncol(temp01)), names_repair = "universal"))
+  temp01 <- tidyr::unnest(temp01, cols = c(ncol(temp01)), names_repair = "universal")
+  temp01 <- dplyr::mutate(temp01, dplyr::across(dplyr::everything(), as.character))
+  return(temp01)
 }

@@ -106,7 +106,23 @@ message_cursor <- paste0("Cursor at student ID:")
   .response <<- httr::content(.result, as = "text", encoding = "UTF-8")
   .response <<- jsonlite::fromJSON(.response, flatten = TRUE)
   temp01 <- as.data.frame(.response[[1]])
-  temp01 <- tidyr::unnest(temp01, cols = c(ncol(temp01)), names_repair = "universal")
+
+  ## Start fix for NULL actions and additional student information
+  last_col <- colnames(temp01)[ncol(temp01)]
+  if (is.list(temp01[ncol(temp01)])) {
+    temp01 <- dplyr::filter(temp01, length(!!last_col) > 0)
+  }
+
+  temp01 <- tidyr::unnest(temp01, cols = c(ncol(temp01)), names_repair = "universal", keep_empty = TRUE)
+
+  last_col <- colnames(temp01)[ncol(temp01)]
+  if (ncol(temp01) > 0) {
+    if (!!last_col %in% colnames(temp01)) {
+      temp01 <- dplyr::mutate(temp01, !!last_col := ifelse(get(last_col) == "NULL", NA, get(last_col)))
+      temp01 <- dplyr::mutate(temp01, dplyr::across(dplyr::everything(), as.character))
+    }
+  }
+  ## End fix for NULL actions and additional student information
 
   ## Loop through the remaining paginations
   message(cat(crayon::silver(message_pagination)))
@@ -115,12 +131,33 @@ message_cursor <- paste0("Cursor at student ID:")
     .response <<- httr::content(resp, as = "text", encoding = "UTF-8")
     .response <<- jsonlite::fromJSON(.response, flatten = TRUE)
     temp02 <- as.data.frame(.response[[1]])
-    temp02 <- tidyr::unnest(temp02, cols = c(ncol(temp02)), names_repair = "universal")
+
+    ## Start fix for NULL actions and additional student information
+    last_col <- colnames(temp02)[ncol(temp02)]
+    if (is.list(temp02[ncol(temp02)])) {
+      temp02 <- dplyr::filter(temp02, length(!!last_col) > 0)
+    }
+
+    temp02 <- tidyr::unnest(temp02, cols = c(ncol(temp02)), names_repair = "universal", keep_empty = TRUE)
+    temp02 <- dplyr::mutate(temp02, dplyr::across(dplyr::everything(), as.character))
+
+    if (nrow(temp02) > 0) {
+      if ("students_and_attribute_values" %in% colnames(temp02)) {
+        temp02 <- dplyr::mutate(
+          temp02,
+          students_and_attribute_values = ifelse(students_and_attribute_values == "NULL", NA, students_and_attribute_values)
+        )
+        temp02 <- dplyr::mutate(temp02, dplyr::across(dplyr::everything(), as.character))
+        temp02 <- dplyr::filter(temp02, !is.na(students_and_attribute_values))
+      }
+    }
+    ## End fix for NULL actions and additional student information
 
     if (nrow(temp02) == 0) {
       temp01 <- temp01
     } else {
       temp01 <- dplyr::add_row(temp01, temp02)
+      temp01[temp01 == "NULL"] <- NA
     }
   }
   return(temp01)

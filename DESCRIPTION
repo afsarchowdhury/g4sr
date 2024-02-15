@@ -1,7 +1,7 @@
 Package: g4sr
 Type: Package
 Title: Go4Schools API Wrapper
-Version: 0.6.2
+Version: 0.7.0
 Authors@R: person("Afsar", "Chowdhury", email = "a.chowdhury@hydehighschool.uk",
                   role = c("aut", "cre"))
 Maintainer: Afsar Chowdhury <a.chowdhury@hydehighschool.uk>

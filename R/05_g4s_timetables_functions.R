@@ -27,7 +27,9 @@ gfs_timetables <- function(academicYear) {
 
   ## Parse the JSON content and and convert it to a data frame
   temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
-  return(tidyr::unnest(temp01, cols = c(ncol(temp01)), names_repair = "universal"))
+  temp01 <- tidyr::unnest(temp01, cols = c(ncol(temp01)), names_repair = "universal")
+  temp01 <- dplyr::mutate(temp01, dplyr::across(dplyr::everything(), as.character))
+  return(temp01)
 }
 
 ## Calendar
@@ -58,6 +60,7 @@ gfs_calendar <- function(academicYear) {
 
   ## Parse the JSON content and and convert it to a data frame
   temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
+  temp01 <- dplyr::mutate(temp01, dplyr::across(dplyr::everything(), as.character))
   return(temp01)
 }
 

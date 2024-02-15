@@ -27,6 +27,7 @@ gfs_reports <- function(academicYear) {
 
   ## Parse the JSON content and and convert it to a data frame
   temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
+  temp01 <- dplyr::mutate(temp01, dplyr::across(dplyr::everything(), as.character))
   return(temp01)
 }
 
@@ -62,6 +63,7 @@ gfs_reports_attributes <- function(academicYear, reportID) {
   ## Parse the JSON content and and convert it to a data frame
   temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
   temp01 <- tidyr::unnest(temp01, cols = c(ncol(temp01)), names_repair = "universal")
+  temp01 <- dplyr::mutate(temp01, dplyr::across(dplyr::everything(), as.character))
   return(temp01)
 }
 
@@ -97,6 +99,7 @@ gfs_reports_grades <- function(academicYear, reportID) {
   ## Parse the JSON content and and convert it to a data frame
   temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
   temp01 <- tidyr::unnest(temp01, cols = c(ncol(temp01)), names_repair = "universal")
+  temp01 <- dplyr::mutate(temp01, dplyr::across(dplyr::everything(), as.character))
   return(temp01)
 }
 

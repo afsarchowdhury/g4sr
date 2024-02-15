@@ -22,7 +22,9 @@ gfs_contacts_parental <- function() {
   response <- httr::content(.result, as = "text", encoding = "UTF-8")
 
   ## Parse the JSON content and and convert it to a data frame
-  return(jsonlite::fromJSON(response, flatten = TRUE))
+  temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
+  temp01 <- dplyr::mutate(temp01, dplyr::across(dplyr::everything(), as.character))
+  return(temp01)
 }
 
 ## School

@@ -27,6 +27,7 @@ gfs_attainment_grade_types <- function(academicYear, yearGroup) {
 
   ## Parse the JSON content and and convert it to a data frame
   temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
+  temp01 <- dplyr::mutate(temp01, dplyr::across(dplyr::everything(), as.character))
   return(temp01)
 }
 
@@ -61,6 +62,7 @@ gfs_attainment_grades <- function(academicYear, yearGroup) {
   ## Parse the JSON content and and convert it to a data frame
   temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
   temp01 <- as.data.frame(temp01[1])
+  temp01 <- dplyr::mutate(temp01, dplyr::across(dplyr::everything(), as.character))
   return(temp01)
 }
 
@@ -93,6 +95,7 @@ gfs_attainment_exam_results <- function(academicYear, yearGroup) {
 
   ## Parse the JSON content and and convert it to a data frame
   temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
+  temp01 <- dplyr::mutate(temp01, dplyr::across(dplyr::everything(), as.character))
   return(temp01)
 }
 

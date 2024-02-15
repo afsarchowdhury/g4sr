@@ -26,7 +26,9 @@ gfs_student_details <- function(academicYear) {
   response <- httr::content(.result, as = "text", encoding = "UTF-8")
 
   ## Parse the JSON content and and convert it to a data frame
-  return(jsonlite::fromJSON(response, flatten = TRUE))
+  temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
+  temp01 <- dplyr::mutate(temp01, dplyr::across(dplyr::everything(), as.character))
+  return(temp01)
 }
 
 ## Student general attributes
@@ -186,6 +188,7 @@ gfs_student_edu_details <- function(academicYear) {
 
   ## Bind cursor paginations and return
   temp01 <- dplyr::bind_rows(payload_list)
+  temp01 <- dplyr::mutate(temp01, dplyr::across(dplyr::everything(), as.character))
   return(temp01)
 }
 
@@ -204,6 +207,34 @@ gfs_student_medical <- function(academicYear) {
 
   ## Set path
   .path <<- paste0(.path_base02, academicYear, .path_student, "/medical-conditions")
+
+  ## Store query
+  .gfs_query()
+
+  ## Check if the API returned an error. If the request fails the API will return a non-200 status code
+  .gfs_query_message()
+
+  ## Parse and loop paginations
+  temp01 <- .gfs_query_while()
+
+  return(temp01)
+}
+
+## Student photos
+#' Get student photos.
+#'
+#' Returns photos for students.
+#' * Use `gfs_student_details()` to resolve student personal details.
+#' @param academicYear academic year as integer.
+#' @examples
+#' gfs_student_photos(2020)
+#' @export
+gfs_student_photos <- function(academicYear) {
+  ## Message
+  message(cat(crayon::silver("Request student photos for", academicYear)))
+
+  ## Set path
+  .path <<- paste0(.path_base02, academicYear, .path_student, "/photos")
 
   ## Store query
   .gfs_query()

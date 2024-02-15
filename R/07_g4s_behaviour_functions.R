@@ -27,6 +27,7 @@ gfs_behaviour_followup <- function(academicYear) {
 
   ## Parse the JSON content and and convert it to a data frame
   temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
+  temp01 <- dplyr::mutate(temp01, dplyr::across(dplyr::everything(), as.character))
   return(temp01)
 }
 
@@ -57,6 +58,7 @@ gfs_behaviour_immediate <- function(academicYear) {
 
   ## Parse the JSON content and and convert it to a data frame
   temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
+  temp01 <- dplyr::mutate(temp01, dplyr::across(dplyr::everything(), as.character))
   return(temp01)
 }
 
@@ -87,6 +89,7 @@ gfs_behaviour_classification <- function(academicYear) {
 
   ## Parse the JSON content and and convert it to a data frame
   temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
+  temp01 <- dplyr::mutate(temp01, dplyr::across(dplyr::everything(), as.character))
   temp01 <- temp01[, 1:3]
   return(temp01)
 }
@@ -118,6 +121,7 @@ gfs_behaviour_event_types <- function(academicYear) {
 
   ## Parse the JSON content and and convert it to a data frame
   temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
+  temp01 <- dplyr::mutate(temp01, dplyr::across(dplyr::everything(), as.character))
   return(temp01)
 }
 
@@ -171,11 +175,16 @@ gfs_behaviour_events_range <- function(academicYear, goDateStart, goDateEnd) {
   goDate <- seq(as.Date(goDateStart), as.Date(goDateEnd), 1)
 
   ## Iterate over date range
-  temp01 <- lapply(1:length(goDate),
-                   function(i) gfs_behaviour_events(academicYear = academicYear,
-                                                    goDate = goDate[i]))
+  temp01 <- lapply(
+    1:length(goDate),
+    function(i) gfs_behaviour_events(
+      academicYear = academicYear,
+      goDate = goDate[i]
+    )
+  )
 
   ## Bind list
   temp01 <- data.table::rbindlist(temp01)
+  temp01 <- dplyr::mutate(temp01, dplyr::across(dplyr::everything(), as.character))
   return(temp01)
 }
