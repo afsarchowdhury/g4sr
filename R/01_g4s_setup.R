@@ -114,6 +114,9 @@ message_cursor <- paste0("Cursor at student ID:")
   }
 
   temp01 <- tidyr::unnest(temp01, cols = c(ncol(temp01)), names_repair = "universal", keep_empty = TRUE)
+  if ("student_ids" %in% colnames(temp01)) {
+    temp01 <- tidyr::unnest(temp01, cols = c(student_ids), names_repair = "universal", keep_empty = TRUE)
+  }
 
   last_col <- colnames(temp01)[ncol(temp01)]
   if (ncol(temp01) > 0) {
@@ -139,6 +142,9 @@ message_cursor <- paste0("Cursor at student ID:")
     }
 
     temp02 <- tidyr::unnest(temp02, cols = c(ncol(temp02)), names_repair = "universal", keep_empty = TRUE)
+    if ("student_ids" %in% colnames(temp02)) {
+      temp02 <- tidyr::unnest(temp02, cols = c(student_ids), names_repair = "universal", keep_empty = TRUE)
+    }
     temp02 <- dplyr::mutate(temp02, dplyr::across(dplyr::everything(), as.character))
 
     if (nrow(temp02) > 0) {
