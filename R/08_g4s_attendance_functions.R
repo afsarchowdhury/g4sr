@@ -60,6 +60,7 @@ gfs_attendance_student_session_marks <- function(academicYear, goDate) {
 
   ## Parse the JSON content and and convert it to a data frame
   temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
+  temp01 <- as.data.frame(temp01)
   temp01 <- dplyr::mutate(temp01, dplyr::across(dplyr::everything(), as.character))
   return(temp01)
 }
@@ -94,6 +95,7 @@ gfs_attendance_student_lesson_marks <- function(academicYear, goDate) {
 
   ## Parse the JSON content and and convert it to a data frame
   temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
+  temp01 <- as.data.frame(temp01)
   temp01 <- dplyr::mutate(temp01, dplyr::across(dplyr::everything(), as.character))
   return(temp01)
 }
@@ -127,6 +129,7 @@ gfs_attendance_student_summary <- function(academicYear) {
 
   ## Parse the JSON content and and convert it to a data frame
   temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
+  temp01 <- as.data.frame(temp01)
   temp01 <- dplyr::mutate(temp01, dplyr::across(dplyr::everything(), as.character))
   return(temp01)
 }
