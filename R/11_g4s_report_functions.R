@@ -28,7 +28,7 @@ gfs_reports <- function(academicYear) {
   ## Parse the JSON content and and convert it to a data frame
   temp01 <- jsonlite::fromJSON(response, flatten = TRUE)
   #temp01 <- dplyr::mutate(temp01, dplyr::across(dplyr::everything(), as.character))
-  temp01 <- dplyr::mutate(temp01, dplyr::across(where(is.integer), .fns = as.character))
+  temp01 <- dplyr::mutate(temp01, dplyr::across(dplyr::where(is.integer), .fns = as.character))
   return(temp01)
 }
 
