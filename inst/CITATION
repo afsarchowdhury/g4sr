@@ -8,7 +8,7 @@ citEntry(
   url      = "https://github.com/afsarchowdhury/g4sr",
   textVersion = paste("Chowdhury, A. (2020).",
         "g4sr: Go4Schools API Wrapper.",
-        "version 0.6.2. Hyde High School. Tameside, Greater Manchester.",
+        "version 0.7.5.",
         "https://github.com/afsarchowdhury/g4sr"
   )
 )
