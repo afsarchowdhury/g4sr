@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-`g4sr` is an API wrapper for Go4Schools.  It allows you to manage your school's data.  Authentication is required for all requests.  See your school's administrator for an API key.  It should look something like this:
+{g4sr} is an `R` API wrapper for Go4Schools.  It allows you to manage your school's data.  Authentication is required for all requests.  See your school's administrator for an API key.  It should look something like this:
 
 `thisISyourAPIkeyITlooksLIKEaLONGstringOFlettersANDnumbers`
 
@@ -29,11 +29,11 @@ There are some API calls that are yet to be included.  The only reason for their
 
 ## Installation
 
-Install the development version from [GitHub](https://github.com/) by typing the following:
+Install the development version using {devtools} by typing the following:
 
 ```{r, eval=FALSE}
 # Install devtools if needed
-#install.packages("devtools")
+install.packages("devtools")
 
 # Install g4sr using devtools
 devtools::install_github("afsarchowdhury/g4sr")
@@ -123,7 +123,7 @@ head(my_cal)
 
 ## License
 
-`g4sr` is released on a [GPLv3 license](https://www.gnu.org/licenses/gpl-3.0.en.html).
+{g4sr} is released on a [GPLv3 license](https://www.gnu.org/licenses/gpl-3.0.en.html).
 
 ## Citation
 

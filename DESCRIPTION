@@ -5,7 +5,7 @@ Version: 0.7.5
 Authors@R: person("Afsar", "Chowdhury", email = "afsarchowdhury@proton.me",
                   role = c("aut", "cre"))
 Maintainer: Afsar Chowdhury <afsarchowdhury@proton.me>
-Description: An API wrapper for Go4Schools.  Allows you to manage your school data.
+Description: An R API wrapper for Go4Schools.  Allows you to manage your school data.
     Authentication is required for all requests.  See your school's 
     administrator for an API key.
 License: GPLv3

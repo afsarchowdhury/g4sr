@@ -6,10 +6,10 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-`g4sr` is an API wrapper for Go4Schools. It allows you to manage your
-school’s data. Authentication is required for all requests. See your
-school’s administrator for an API key. It should look something like
-this:
+{g4sr} is an `R` API wrapper for Go4Schools. It allows you to manage
+your school’s data. Authentication is required for all requests. See
+your school’s administrator for an API key. It should look something
+like this:
 
 `thisISyourAPIkeyITlooksLIKEaLONGstringOFlettersANDnumbers`
 
@@ -25,12 +25,12 @@ for their absence is that I have not needed to use them yet.
 
 ## Installation
 
-Install the development version from [GitHub](https://github.com/) by
-typing the following:
+Install the development version using {devtools} by typing the
+following:
 
 ``` r
 # Install devtools if needed
-#install.packages("devtools")
+install.packages("devtools")
 
 # Install g4sr using devtools
 devtools::install_github("afsarchowdhury/g4sr")
@@ -143,17 +143,17 @@ my_cal <- gfs_calendar(academicYear = 2020)
 #> 
 head(my_cal)
 #>   timetable_id week                 date day_type_code
-#> 1           NA   NA 2019-09-02T00:00:00Z      TRAINING
+#> 1         <NA> <NA> 2019-09-02T00:00:00Z      TRAINING
 #> 2        10202    1 2019-09-03T00:00:00Z          OPEN
 #> 3        10202    1 2019-09-04T00:00:00Z          OPEN
 #> 4        10202    1 2019-09-05T00:00:00Z          OPEN
 #> 5        10202    1 2019-09-06T00:00:00Z          OPEN
-#> 6           NA   NA 2019-09-07T00:00:00Z        CLOSED
+#> 6         <NA> <NA> 2019-09-07T00:00:00Z        CLOSED
 ```
 
 ## License
 
-`g4sr` is released on a [GPLv3
+{g4sr} is released on a [GPLv3
 license](https://www.gnu.org/licenses/gpl-3.0.en.html).
 
 ## Citation
@@ -162,8 +162,7 @@ license](https://www.gnu.org/licenses/gpl-3.0.en.html).
 citation("g4sr")
 #> To cite g4sr in publications use:
 #> 
-#>   Chowdhury, A. (2020). g4sr: Go4Schools API Wrapper. version 0.6.2.
-#>   Hyde High School. Tameside, Greater Manchester.
+#>   Chowdhury, A. (2020). g4sr: Go4Schools R API Wrapper. version 0.7.5.
 #>   https://github.com/afsarchowdhury/g4sr
 #> 
 #> A BibTeX entry for LaTeX users is
